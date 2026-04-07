@@ -1,7 +1,10 @@
 <template>
   <div class="app-layout">
     <Header />
-    <router-view></router-view>
+    <main class="main-content">
+      <router-view></router-view>
+    </main>
+    <button class="fab-button" @click="handleAddClick">+</button>
   </div>
 </template>
 <script>
@@ -11,27 +14,40 @@ import { provide } from 'vue';
 export default {
   name: 'App',
   components: { Header },
-  setup() {},
+  setup() {
+    const handleAddClick = () => {
+      alert('내역 추가 창을 띄울 예정입니다!');
+      // 여기에 라우터 이동이나 모달 오픈 로직을 넣으세요.
+    };
+    return { handleAddClick };
+  },
 };
 </script>
 
 <style>
-/* 기본 마진 제거 */
 body {
   margin: 0;
-  padding: 0;
 }
 
 .app-layout {
-  display: flex; /* 가로 배치 */
-  width: 100%;
+  display: flex;
+  flex-direction: row; /* 기본은 가로 배치 (PC) */
   min-height: 100vh;
 }
 
 .main-content {
-  flex: 1; /* 사이드바 제외 나머지 공간 모두 차지 */
-  padding: 30px;
-  background-color: #ffffff;
-  overflow-y: auto; /* 본문이 길어지면 본문만 스크롤 */
+  flex: 1;
+  padding: 20px;
+}
+
+/* 스마트폰 화면 (768px 미만) */
+@media (max-width: 767px) {
+  .app-layout {
+    flex-direction: column; /* 세로 배치로 변경 */
+  }
+
+  .main-content {
+    padding-bottom: 80px; /* 하단 바에 컨텐츠가 가려지지 않게 여백 추가 */
+  }
 }
 </style>

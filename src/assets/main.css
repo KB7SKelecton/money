@@ -33,3 +33,27 @@ a,
     padding: 0 2rem;
   }
 } */
+#menu {
+  float: left;
+}
+#section {
+  width: 700px;
+  float: right; /* left로 입력해도 상관없습니다 */
+}
+li {
+  list-style: none;
+}
+@media screen and (max-width: 767px) {
+  /* 스마트폰 사이즈에서는 전부 해제합니다. */
+  body {
+    width: auto;
+  }
+  #menu {
+    width: auto;
+    float: none;
+  }
+  #section {
+    width: auto;
+    float: none;
+  }
+}
