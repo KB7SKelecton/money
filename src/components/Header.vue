@@ -27,6 +27,7 @@
 .nav-header {
   padding: 20px;
   text-align: center;
+  color: white;
 }
 .nav-menu {
   list-style: none;
