@@ -7,8 +7,7 @@
     <ul class="nav-menu">
       <li><router-link to="/">홈</router-link></li>
       <li><router-link to="/list">내역</router-link></li>
-      <li><router-link to="/report">리포트</router-link></li>
-      <li><router-link to="/about">설정</router-link></li>
+      <li><router-link to="/mypage">마이페이지</router-link></li>
     </ul>
   </nav>
 </template>
