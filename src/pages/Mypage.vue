@@ -116,8 +116,12 @@ function startEdit() {
 }
 
 // 이름 수정 완료: Enter 또는 바깥 클릭 시 실행
-function finishEdit() {
+async function finishEdit() {
   isEditingName.value = false;
+  // 이름 수정 완료 시 db에 저장
+  await axios.patch("http://localhost:3000/users/1", {
+    nickname: user.value.name,
+  });
 }
 
 // 이메일 수정 시작: 텍스트 클릭 시 실행
@@ -126,8 +130,12 @@ function startEditEmail() {
 }
 
 // 이메일 수정 완료: Enter 또는 바깥 클릭 시 실행
-function finishEditEmail() {
+async function finishEditEmail() {
   isEditingEmail.value = false;
+  // 이메일 수정 완료 시 db에 저장
+  await axios.patch("http://localhost:3000/users/1", {
+    email: user.value.email,
+  });
 }
 
 onMounted(async () => {

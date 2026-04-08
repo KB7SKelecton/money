@@ -3,20 +3,44 @@
     {
       "id": 1,
       "email": "money@test.com",
-      "nickname": "오죠사마",
+      "nickname": "오죠사먀",
       "profile_image_url": "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTAyMTRfMTgy%2FMDAxNzM5NTQxNzA1NDQ0.RfZH9MCSEaJCDutt8GVQHk0ndqVLcWKBLE9UUxKHb8Qg.bZb_3iKvCHLlk6JvjTKCgMSyht4ETwjcudBcy0fTHzYg.PNG%2Fimage.png&type=sc960_832",
       "initial_balance": 300000
     }
   ],
   "categories": [
-    { "id": 1, "name": "행정" },
-    { "id": 2, "name": "교육" },
-    { "id": 3, "name": "교통" },
-    { "id": 4, "name": "쇼핑" },
-    { "id": 5, "name": "여행" },
-    { "id": 6, "name": "음식" },
-    { "id": 7, "name": "편의" },
-    { "id": 8, "name": "비즈니스" }
+    {
+      "id": 1,
+      "name": "행정"
+    },
+    {
+      "id": 2,
+      "name": "교육"
+    },
+    {
+      "id": 3,
+      "name": "교통"
+    },
+    {
+      "id": 4,
+      "name": "쇼핑"
+    },
+    {
+      "id": 5,
+      "name": "여행"
+    },
+    {
+      "id": 6,
+      "name": "음식"
+    },
+    {
+      "id": 7,
+      "name": "편의"
+    },
+    {
+      "id": 8,
+      "name": "비즈니스"
+    }
   ],
   "transactions": [
     {
