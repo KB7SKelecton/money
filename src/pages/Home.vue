@@ -337,7 +337,7 @@ const totalMonthlyExpense = computed(() => {
   display: flex;
   flex-direction: column;
   background: #131313;
-  padding: 10px;
+  padding: 10px 20px;
   overflow-y: auto;
 }
 
@@ -611,12 +611,15 @@ const totalMonthlyExpense = computed(() => {
 }
 .mypage-balance {
   background-color: #2a2a2a;
-  border-radius: 12px;
-  padding: 16px 24px;
+  border-radius: 8px;
+  padding: 8px 12px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 2px;
+  flex: 1;
+  min-width: 0; /* flex box 안에서 텍스트에 의해 늘어나는 것 방지 */
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .balance-label {
@@ -628,7 +631,7 @@ const totalMonthlyExpense = computed(() => {
 }
 
 .balance-amount {
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #e5e2e1;
 }
