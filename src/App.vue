@@ -25,10 +25,10 @@
   </div>
 </template>
 <script>
-import { useRoute, useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
-import axios from "axios";
-import Header from "@/components/Header.vue";
+import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import Header from '@/components/Header.vue';
 import Nav from '@/components/Nav.vue';
 
 export default {
@@ -38,17 +38,17 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
-    const userName = ref("");
-    const userProfileImg = ref("");
+    const userName = ref('');
+    const userProfileImg = ref('');
 
     onMounted(async () => {
-      const res = await axios.get("http://localhost:3000/users/1");
+      const res = await axios.get('http://localhost:3000/users/1');
       userName.value = res.data.nickname;
       userProfileImg.value = res.data.profile_image_url;
     });
     const handleLogout = () => {
-      localStorage.removeItem("user");
-      router.push("/login");
+      localStorage.removeItem('user');
+      router.push('/login');
     };
     const handleAddClick = () => {
       alert('내역 추가 창을 띄울 예정입니다!');
@@ -73,15 +73,14 @@ body {
 }
 
 .app-layout {
-  display: flex;
-  flex-direction: row; /* 기본은 가로 배치 (PC) */
   min-height: 100vh;
 }
 
 .main-content {
-  flex: 1;
   padding: 0;
   background-color: #131313;
+  width: calc(100% - 260px);
+  float: right;
 }
 
 /* 스마트폰 화면 (768px 미만) */

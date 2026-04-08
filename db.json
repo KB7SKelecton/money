@@ -161,15 +161,6 @@
       "memo": "편의점 커피"
     },
     {
-      "id": 14,
-      "user_id": 1,
-      "category_id": 5,
-      "type": "EXPENSE",
-      "amount": 120000,
-      "transaction_date": "2026-04-10",
-      "memo": "주말 기차 여행 경비"
-    },
-    {
       "id": 15,
       "user_id": 1,
       "category_id": 6,
@@ -282,7 +273,7 @@
       "user_id": 1,
       "category_id": 5,
       "type": "EXPENSE",
-      "amount": 30000,
+      "amount": 40000,
       "transaction_date": "2026-04-27",
       "memo": "당일치기 나들이 비용"
     },
@@ -392,7 +383,7 @@
       "type": "EXPENSE",
       "amount": 95000,
       "transaction_date": "2026-05-08",
-      "memo": "주말 여행 숙박 예약합니다."
+      "memo": "주말 여행 숙박 예약"
     },
     {
       "id": 40,
@@ -491,7 +482,6 @@
       "transaction_date": "2025-12-25",
       "memo": "보너스"
     },
-
     {
       "id": 46,
       "user_id": 1,
@@ -546,7 +536,6 @@
       "transaction_date": "2026-01-20",
       "memo": "프로젝트 정산"
     },
-
     {
       "id": 52,
       "user_id": 1,
