@@ -36,13 +36,6 @@
         Show Me The Money
       </h1>
     </div>
-    <nav>
-      <ul class="nav-menu">
-        <li><router-link to="/">홈</router-link></li>
-        <li><router-link to="/list">내역</router-link></li>
-        <li><router-link to="/mypage">마이페이지</router-link></li>
-      </ul>
-    </nav>
 
     <!-- 유저 정보 & 로그아웃 -->
     <div style="display: flex; align-items: center; gap: 24px">
