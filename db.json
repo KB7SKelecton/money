@@ -3,7 +3,7 @@
     {
       "id": 1,
       "email": "money@test.com",
-      "nickname": "오죠사먀",
+      "nickname": "오조사마",
       "profile_image_url": "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTAyMTRfMTgy%2FMDAxNzM5NTQxNzA1NDQ0.RfZH9MCSEaJCDutt8GVQHk0ndqVLcWKBLE9UUxKHb8Qg.bZb_3iKvCHLlk6JvjTKCgMSyht4ETwjcudBcy0fTHzYg.PNG%2Fimage.png&type=sc960_832",
       "initial_balance": 300000
     }
@@ -282,7 +282,7 @@
       "user_id": 1,
       "category_id": 5,
       "type": "EXPENSE",
-      "amount": 30000,
+      "amount": 40000,
       "transaction_date": "2026-04-27",
       "memo": "당일치기 나들이 비용"
     },
@@ -392,7 +392,7 @@
       "type": "EXPENSE",
       "amount": 95000,
       "transaction_date": "2026-05-08",
-      "memo": "주말 여행 숙박 예약합니다."
+      "memo": "주말 여행 숙박 예약"
     },
     {
       "id": 40,
@@ -402,204 +402,6 @@
       "amount": 15000,
       "transaction_date": "2026-05-09",
       "memo": "민원 관련 발급 비용"
-    },
-    {
-      "user_id": 1,
-      "category_id": 6,
-      "type": "EXPENSE",
-      "amount": 10000000,
-      "transaction_date": "2026-04-07",
-      "memo": "",
-      "id": 41
-    },
-    {
-      "user_id": 1,
-      "category_id": 6,
-      "type": "INCOME",
-      "amount": 222414,
-      "transaction_date": "2026-04-07",
-      "memo": "",
-      "id": 42
-    },
-    {
-      "user_id": 1,
-      "category_id": 6,
-      "type": "EXPENSE",
-      "amount": 2124124,
-      "transaction_date": "2026-04-07",
-      "memo": "ㅋㅋㅋㅋㅋ와우",
-      "id": 43
-    },
-    {
-      "user_id": 1,
-      "category_id": 5,
-      "type": "INCOME",
-      "amount": 214124124,
-      "transaction_date": "2026-03-31",
-      "memo": "ㄴㄻㄴㄹㄻㄴㄹㅋㅋㅋ카테고리되었나"
-    },
-    {
-      "user_id": 1,
-      "category_id": 8,
-      "type": "INCOME",
-      "amount": 123132131,
-      "transaction_date": "2026-04-08",
-      "memo": "testsetsetestsse"
-    },
-    {
-      "id": 41,
-      "user_id": 1,
-      "category_id": 8,
-      "type": "INCOME",
-      "amount": 500000,
-      "transaction_date": "2025-12-01",
-      "memo": "연말 프로젝트 수입"
-    },
-    {
-      "id": 42,
-      "user_id": 1,
-      "category_id": 6,
-      "type": "EXPENSE",
-      "amount": 20000,
-      "transaction_date": "2025-12-01",
-      "memo": "점심 식사"
-    },
-    {
-      "id": 43,
-      "user_id": 1,
-      "category_id": 4,
-      "type": "EXPENSE",
-      "amount": 120000,
-      "transaction_date": "2025-12-05",
-      "memo": "겨울옷 쇼핑"
-    },
-    {
-      "id": 44,
-      "user_id": 1,
-      "category_id": 5,
-      "type": "EXPENSE",
-      "amount": 300000,
-      "transaction_date": "2025-12-20",
-      "memo": "연말 여행"
-    },
-    {
-      "id": 45,
-      "user_id": 1,
-      "category_id": 8,
-      "type": "INCOME",
-      "amount": 200000,
-      "transaction_date": "2025-12-25",
-      "memo": "보너스"
-    },
-
-    {
-      "id": 46,
-      "user_id": 1,
-      "category_id": 8,
-      "type": "INCOME",
-      "amount": 300000,
-      "transaction_date": "2026-01-02",
-      "memo": "1월 외주 수입"
-    },
-    {
-      "id": 47,
-      "user_id": 1,
-      "category_id": 6,
-      "type": "EXPENSE",
-      "amount": 15000,
-      "transaction_date": "2026-01-02",
-      "memo": "점심"
-    },
-    {
-      "id": 48,
-      "user_id": 1,
-      "category_id": 3,
-      "type": "EXPENSE",
-      "amount": 1450,
-      "transaction_date": "2026-01-03",
-      "memo": "버스비"
-    },
-    {
-      "id": 49,
-      "user_id": 1,
-      "category_id": 2,
-      "type": "EXPENSE",
-      "amount": 40000,
-      "transaction_date": "2026-01-10",
-      "memo": "온라인 강의"
-    },
-    {
-      "id": 50,
-      "user_id": 1,
-      "category_id": 4,
-      "type": "EXPENSE",
-      "amount": 80000,
-      "transaction_date": "2026-01-15",
-      "memo": "신발 구매"
-    },
-    {
-      "id": 51,
-      "user_id": 1,
-      "category_id": 8,
-      "type": "INCOME",
-      "amount": 250000,
-      "transaction_date": "2026-01-20",
-      "memo": "프로젝트 정산"
-    },
-
-    {
-      "id": 52,
-      "user_id": 1,
-      "category_id": 8,
-      "type": "INCOME",
-      "amount": 350000,
-      "transaction_date": "2026-02-01",
-      "memo": "2월 외주 수입"
-    },
-    {
-      "id": 53,
-      "user_id": 1,
-      "category_id": 6,
-      "type": "EXPENSE",
-      "amount": 11000,
-      "transaction_date": "2026-02-01",
-      "memo": "점심"
-    },
-    {
-      "id": 54,
-      "user_id": 1,
-      "category_id": 7,
-      "type": "EXPENSE",
-      "amount": 5000,
-      "transaction_date": "2026-02-03",
-      "memo": "편의점 간식"
-    },
-    {
-      "id": 55,
-      "user_id": 1,
-      "category_id": 3,
-      "type": "EXPENSE",
-      "amount": 1450,
-      "transaction_date": "2026-02-05",
-      "memo": "지하철"
-    },
-    {
-      "id": 56,
-      "user_id": 1,
-      "category_id": 5,
-      "type": "EXPENSE",
-      "amount": 180000,
-      "transaction_date": "2026-02-10",
-      "memo": "주말 여행"
-    },
-    {
-      "id": 57,
-      "user_id": 1,
-      "category_id": 8,
-      "type": "INCOME",
-      "amount": 200000,
-      "transaction_date": "2026-02-18",
-      "memo": "작업 정산"
     }
   ]
 }

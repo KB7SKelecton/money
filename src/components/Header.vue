@@ -2,9 +2,9 @@
   <header
     style="
       position: fixed;
+      width: 100%;
       top: 0;
       left: 0;
-      right: 0;
       height: 64px;
       background-color: #131313;
       border-bottom: 2px solid #f8a70c;
@@ -13,6 +13,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 24px;
+      z-index: 9999;
     "
   >
     <!-- 로고 & 타이틀 -->

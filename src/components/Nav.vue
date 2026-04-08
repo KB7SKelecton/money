@@ -33,7 +33,7 @@
   display: flex;
   flex-direction: column;
   padding: 20px 0;
-  z-index: 9999;
+  z-index: 9998;
 }
 .menu-group {
   flex: 1;
@@ -62,7 +62,7 @@
   );
 }
 .nav-item.router-link-active::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;

@@ -11,6 +11,7 @@
           <span class="balance-amount"
             >잔고 : {{ balance.toLocaleString() }}원</span
           >
+          <Chart />
         </div>
       </div>
     </div>
@@ -88,7 +89,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
-
+import Chart from "@/components/Chart.vue";
 const router = useRouter();
 
 const balance = ref(0);
@@ -185,8 +186,8 @@ function onAvatarChange(event) {
 
 /* 마이페이지 제목 */
 .mypage-title {
-  font-size: 3.5rem;
-  font-weight: 500;
+  font-size: 2rem;
+  font-weight: 400;
   color: #e5e2e1;
   margin: 0 0 20px 0;
   letter-spacing: -0.03em;
