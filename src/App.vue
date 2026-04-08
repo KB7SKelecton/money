@@ -1,13 +1,22 @@
 <template>
   <div class="app-layout">
+    <Header
+      v-if="route.path !== '/login' && route.path !== '/register'"
+      :user-name="userName"
+      :user-profile-img="userProfileImg"
+      @logout="handleLogout"
+    />
     <Nav />
-    <!-- <Header /> -->
     <main class="main-content">
       <router-view></router-view>
     </main>
     <!-- 마이페이지 빼고 + 버튼 생성 -->
     <button
-      v-if="route.path !== '/mypage'"
+      v-if="
+        route.path !== '/mypage' &&
+        route.path !== '/login' &&
+        route.path !== '/register'
+      "
       class="fab-button"
       @click="handleAddClick"
     >
@@ -16,21 +25,43 @@
   </div>
 </template>
 <script>
-import Header from '@/components/Header.vue';
+import { useRoute, useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import Header from "@/components/Header.vue";
 import Nav from '@/components/Nav.vue';
-import { useRoute } from 'vue-router'; // 추가!
 
 export default {
   name: 'App',
   components: { Header, Nav },
   setup() {
-    const route = useRoute(); // 추가!
+    const route = useRoute();
+    const router = useRouter();
 
+    const userName = ref("");
+    const userProfileImg = ref("");
+
+    onMounted(async () => {
+      const res = await axios.get("http://localhost:3000/users/1");
+      userName.value = res.data.nickname;
+      userProfileImg.value = res.data.profile_image_url;
+    });
+    const handleLogout = () => {
+      localStorage.removeItem("user");
+      router.push("/login");
+    };
     const handleAddClick = () => {
       alert('내역 추가 창을 띄울 예정입니다!');
     };
 
-    return { handleAddClick, route }; // route 추가!
+    return {
+      handleAddClick,
+      route,
+      handleLogout,
+      userName,
+      userProfileImg,
+      router,
+    };
   },
 };
 </script>
@@ -109,5 +140,16 @@ body {
   .fab-button {
     bottom: 80px;
   }
+}
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  background-color: #131313 !important;
+  margin: 0;
+  padding: 0;
 }
 </style>

@@ -22,12 +22,12 @@ const router = createRouter({
   const isLoginPage = to.path === '/login';
 
   if (!isLoginPage && !loggedInUser) {
-    alert('로그인이 필요한 서비스입니다.');
-    next('/login');
+    alert("로그인이 필요한 서비스입니다.");
+    return "/login";
   } else if (isLoginPage && loggedInUser) {
-    next('/main');
+    return "/";
   } else {
-    next();
+    return true;
   }
 }); */
 
