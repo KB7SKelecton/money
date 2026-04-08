@@ -399,7 +399,7 @@ const totalMonthlyExpense = computed(() => {
 .day-label {
   padding: 16px 0;
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 1.5rem;
   font-weight: 800;
   background: #1c1b1b;
   color: rgba(229, 226, 225, 0.5);
@@ -437,7 +437,7 @@ const totalMonthlyExpense = computed(() => {
 
 /* 날짜 숫자 */
 .date-num {
-  font-size: 0.875rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: #f8a70c;
 }
@@ -457,7 +457,7 @@ const totalMonthlyExpense = computed(() => {
 
 /* 수입/지출 태그 */
 .cell-income {
-  font-size: 8px;
+  font-size: 16px;
   font-weight: 700;
   color: #81c784; /* 부드러운 초록 */
   background: rgba(129, 199, 132, 0.1);
@@ -467,7 +467,7 @@ const totalMonthlyExpense = computed(() => {
 }
 
 .cell-expense {
-  font-size: 8px;
+  font-size: 16px;
   font-weight: 700;
   color: #ffb4ab; /* 부드러운 레드 */
   background: rgba(255, 180, 171, 0.1);
