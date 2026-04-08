@@ -16,6 +16,9 @@
         <span>마이페이지</span>
       </router-link>
     </div>
+    <div class="logo-image">
+      <img src="../assets/logo.png" alt="로고" />
+    </div>
   </nav>
 </template>
 
@@ -77,5 +80,13 @@
   color: #ffffff;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+.logo-image {
+  width: 200px;
+}
+.logo-image img {
+  width: 100%;
+  filter: grayscale(1);
+  opacity: 0.3;
 }
 </style>
