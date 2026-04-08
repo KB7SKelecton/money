@@ -14,28 +14,28 @@
       <main class="calendar-container">
         <!-- 잔고, 수입, 지출창 -->
         <div class="mypage-balance">
-          <span class="balance-label">AVAILABLE ASSETS</span>
+          <span class="balance-label"></span>
           <span class="balance-amount"
             >잔고 : {{ balance.toLocaleString() }}원</span
           >
 
           <section class="summary-container">
             <div class="mypage-balance income-box">
-              <span class="balance-label">MONTHLY INCOME</span>
+              <span class="balance-label">월 수입</span>
               <span class="balance-amount">
                 + {{ totalMonthlyIncome.toLocaleString() }}원
               </span>
             </div>
 
             <div class="mypage-balance expense-box">
-              <span class="balance-label">MONTHLY EXPENSE</span>
+              <span class="balance-label">월 지출</span>
               <span class="balance-amount">
                 - {{ totalMonthlyExpense.toLocaleString() }}원
               </span>
             </div>
 
             <div class="mypage-balance total-box">
-              <span class="balance-label">TOTAL NET</span>
+              <span class="balance-label">월 통계</span>
               <span class="balance-amount">
                 {{ totalMonthlyIncome - totalMonthlyExpense >= 0 ? '+' : '' }}
                 {{
@@ -337,7 +337,7 @@ const totalMonthlyExpense = computed(() => {
   display: flex;
   flex-direction: column;
   background: #131313;
-  padding: 32px;
+  padding: 10px;
   overflow-y: auto;
 }
 
@@ -346,8 +346,8 @@ const totalMonthlyExpense = computed(() => {
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬로 변경하여 세련미 강조 */
   align-items: center;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .current-month {
@@ -387,10 +387,11 @@ const totalMonthlyExpense = computed(() => {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: minmax(70px, auto);
   background: rgba(255, 255, 255, 0.05); /* 격자 선 역할 */
   gap: 1px;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  border-radius: 1px;
   overflow: hidden;
 }
 
@@ -414,13 +415,13 @@ const totalMonthlyExpense = computed(() => {
 /* 개별 날짜 칸 스타일 */
 .date-cell {
   min-height: 120px;
-  padding: 12px;
+  padding: 6px;
   background: #131313;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .date-cell:hover {
@@ -456,7 +457,7 @@ const totalMonthlyExpense = computed(() => {
 
 /* 수입/지출 태그 */
 .cell-income {
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 700;
   color: #81c784; /* 부드러운 초록 */
   background: rgba(129, 199, 132, 0.1);
@@ -466,7 +467,7 @@ const totalMonthlyExpense = computed(() => {
 }
 
 .cell-expense {
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 700;
   color: #ffb4ab; /* 부드러운 레드 */
   background: rgba(255, 180, 171, 0.1);
@@ -633,22 +634,22 @@ const totalMonthlyExpense = computed(() => {
 }
 .summary-container {
   display: flex;
-  gap: 15px;
-  padding: 20px;
-  flex-wrap: wrap; /* 화면이 좁아지면 아래로 내려가도록 */
+  gap: 0px;
+  padding: 10px 0;
+  flex-wrap: nowrap; /* 화면이 좁아지면 아래로 내려가도록 */
 }
 
 /* 공통 카드 스타일 (기존 제공해주신 스타일 기반) */
 .mypage-balance {
   background-color: #2a2a2a;
-  border-radius: 12px;
-  padding: 16px 24px;
+  border-radius: 6px;
+  padding: 6px 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 2px;
   flex: 1; /* 3개가 동일한 너비를 가짐 */
-  min-width: 200px; /* 너무 작아지지 않게 제한 */
+  min-width: 100px; /* 너무 작아지지 않게 제한 */
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -661,7 +662,7 @@ const totalMonthlyExpense = computed(() => {
 }
 
 .balance-amount {
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #e5e2e1;
   white-space: nowrap;
