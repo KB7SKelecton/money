@@ -1,10 +1,8 @@
 <template>
   <!-- 내역 화면 루트: KB 다크 테마, scoped 스타일 적용 -->
   <div class="list-screen">
-    <!-- 상단: 제목 + 탭(카테고리/월/일) + 탭별 안내 문구 -->
+    <!-- 상단: 탭만 (카테고리 / 월 / 일) -->
     <header class="page-head">
-      <h1 class="page-title">내역</h1>
-      <!-- 탭 전환: activeTab(category | month | day) 과 동기화 -->
       <nav class="list-tabs" role="tablist" aria-label="내역 보기 방식">
         <button
           type="button"
@@ -37,7 +35,6 @@
           일별 내역
         </button>
       </nav>
-      <p class="page-sub">{{ tabHint }}</p>
     </header>
 
     <!-- 로딩 / API 오류 / 사용자 없음 / 데이터 없음 -->
@@ -138,16 +135,6 @@ const categories = ref([]);
 const activeUserId = ref(null);
 
 // ---------- 탭·표시 보조 ----------
-/** 선택된 탭에 맞는 헤더 아래 설명 문구 */
-const tabHint = computed(() => {
-  const m = {
-    category: 'DB의 거래를 카테고리별로 묶어 수입·지출을 함께 표시합니다.',
-    month: '같은 달의 거래를 묶어 월별로 확인합니다.',
-    day: '같은 일자의 거래를 묶어 일별로 확인합니다.',
-  };
-  return m[activeTab.value] ?? m.category;
-});
-
 /** 월·일 탭에서만 행에 카테고리명 표시 (카테고리 탭은 그룹이 곧 카테고리) */
 const showCategoryMeta = computed(() => activeTab.value !== 'category');
 
@@ -416,17 +403,10 @@ onMounted(loadData);
 }
 
 .page-head {
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(255, 188, 0, 0.08) 0%, transparent 100%);
-}
-
-.page-title {
-  margin: 0 0 14px;
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
 /* 탭 버튼 행 */
@@ -434,7 +414,7 @@ onMounted(loadData);
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .list-tab {
@@ -466,13 +446,6 @@ onMounted(loadData);
   border-color: var(--kb-yellow);
   box-shadow: 0 0 0 1px rgba(255, 188, 0, 0.35);
   background: rgba(255, 188, 0, 0.08);
-}
-
-/* 탭 아래 설명 문구 */
-.page-sub {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--muted);
 }
 
 /* 로딩·에러·빈 목록 메시지 */
