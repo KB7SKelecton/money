@@ -4,7 +4,7 @@ import Home from '@/pages/Home.vue';
 import List from '@/pages/List.vue';
 import RegisterPage from '@/pages/RegisterPage.vue';
 import Login from '@/pages/Login.vue';
-import MyPage from '@/pages/MyPage.vue';
+import MyPage from "@/pages/MyPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,12 +22,12 @@ const router = createRouter({
   const isLoginPage = to.path === '/login';
 
   if (!isLoginPage && !loggedInUser) {
-    alert('로그인이 필요한 서비스입니다.');
-    next('/login');
+    alert("로그인이 필요한 서비스입니다.");
+    return "/login";
   } else if (isLoginPage && loggedInUser) {
-    next('/main');
+    return "/";
   } else {
-    next();
+    return true;
   }
 }); */
 
