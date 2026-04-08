@@ -282,7 +282,7 @@
       "user_id": 1,
       "category_id": 5,
       "type": "EXPENSE",
-      "amount": 40000,
+      "amount": 30000,
       "transaction_date": "2026-04-27",
       "memo": "당일치기 나들이 비용"
     },
@@ -392,7 +392,7 @@
       "type": "EXPENSE",
       "amount": 95000,
       "transaction_date": "2026-05-08",
-      "memo": "주말 여행 숙박 예약"
+      "memo": "주말 여행 숙박 예약합니다."
     },
     {
       "id": 40,
