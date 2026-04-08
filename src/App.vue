@@ -85,12 +85,10 @@ body {
 
 /* 스마트폰 화면 (768px 미만) */
 @media (max-width: 767px) {
-  .app-layout {
-    flex-direction: column; /* 세로 배치로 변경 */
-  }
-
   .main-content {
-    padding-bottom: 80px; /* 하단 바에 컨텐츠가 가려지지 않게 여백 추가 */
+    width: 100%;
+    float: none;
+    padding-bottom: 96px; /* 하단 네비 + FAB 영역 확보 */
   }
 }
 .fab-button {
@@ -127,17 +125,19 @@ body {
 
 /* 모바일 전용 여백 조절 (메뉴바와 겹치지 않게) */
 @media (max-width: 767px) {
-  .app-layout {
-    flex-direction: column;
-  }
-
   .main-content {
-    padding-bottom: 80px;
+    width: 100%;
+    float: none;
+    padding-bottom: 96px;
   }
 
   /* 모바일에서는 메뉴바(60px) 위로 버튼을 조금 더 올림 */
   .fab-button {
-    bottom: 80px;
+    right: 16px;
+    bottom: 88px;
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
   }
 }
 * {

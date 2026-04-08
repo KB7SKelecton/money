@@ -278,4 +278,65 @@ function onAvatarChange(event) {
   outline: none;
   font-family: "Manrope", sans-serif;
 }
+
+/* 모바일에서는 좌측 사이드바 -> 하단 탭바 */
+@media (max-width: 767px) {
+  .side-nav {
+    width: 100%;
+    height: 64px;
+    border-right: none;
+    border-top: 1px solid #222;
+    padding: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    z-index: 9998;
+  }
+
+  .menu-group {
+    height: 100%;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .nav-item {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    padding: 8px 4px 10px;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .icon {
+    font-size: 14px;
+  }
+
+  .nav-item.router-link-active {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 179, 71, 0.18) 0%,
+      rgba(255, 179, 71, 0.06) 100%
+    );
+  }
+
+  .nav-item.router-link-active::before {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 3px;
+    box-shadow: 0 2px 12px rgba(255, 179, 71, 0.5);
+  }
+
+  .logo-image {
+    display: none;
+  }
+}
 </style>
