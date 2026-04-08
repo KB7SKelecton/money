@@ -382,8 +382,8 @@
       "category_id": 5,
       "type": "EXPENSE",
       "amount": 95000,
-      "transaction_date": "2026-05-08",
-      "memo": "주말 여행 숙박 예약"
+      "transaction_date": "2026-04-08",
+      "memo": "주말 여행 숙박 예약합니다."
     },
     {
       "id": 40,

@@ -1121,5 +1121,52 @@ onMounted(() => {
     width: 100%;
     text-align: center;
   }
+
+  /* 그룹 헤더(아이콘/제목/합계) 모바일 세로 정렬 */
+  .ledger-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .ledger-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .ledger-totals {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  /* 거래 한 줄: 모바일에서는 2줄 그리드로 재배치 */
+  .tx-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'date body'
+      'amount amount';
+    gap: 10px 12px;
+    padding: 12px 8px;
+    margin: 0 -8px;
+  }
+
+  .tx-date {
+    grid-area: date;
+    min-width: 0;
+  }
+
+  .tx-body {
+    grid-area: body;
+  }
+
+  .tx-amount {
+    grid-area: amount;
+    justify-self: end;
+    padding-top: 0;
+  }
 }
 </style>
