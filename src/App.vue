@@ -1,25 +1,67 @@
 <template>
   <div class="app-layout">
-    <Header />
+    <Header
+      v-if="route.path !== '/login' && route.path !== '/register'"
+      :user-name="userName"
+      :user-profile-img="userProfileImg"
+      @logout="handleLogout"
+    />
+    <Nav />
     <main class="main-content">
       <router-view></router-view>
     </main>
-    <button class="fab-button" @click="handleAddClick">+</button>
+    <!-- 마이페이지 빼고 + 버튼 생성 -->
+    <button
+      v-if="
+        route.path !== '/mypage' &&
+        route.path !== '/login' &&
+        route.path !== '/register'
+      "
+      class="fab-button"
+      @click="handleAddClick"
+    >
+      +
+    </button>
   </div>
 </template>
 <script>
+import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import Header from '@/components/Header.vue';
-import { provide } from 'vue';
+import Nav from '@/components/Nav.vue';
 
 export default {
   name: 'App',
-  components: { Header },
+  components: { Header, Nav },
   setup() {
+    const route = useRoute();
+    const router = useRouter();
+
+    const userName = ref('');
+    const userProfileImg = ref('');
+
+    onMounted(async () => {
+      const res = await axios.get('http://localhost:3000/users/1');
+      userName.value = res.data.nickname;
+      userProfileImg.value = res.data.profile_image_url;
+    });
+    const handleLogout = () => {
+      localStorage.removeItem('user');
+      router.push('/login');
+    };
     const handleAddClick = () => {
       alert('내역 추가 창을 띄울 예정입니다!');
-      // 여기에 라우터 이동이나 모달 오픈 로직을 넣으세요.
     };
-    return { handleAddClick };
+
+    return {
+      handleAddClick,
+      route,
+      handleLogout,
+      userName,
+      userProfileImg,
+      router,
+    };
   },
 };
 </script>
@@ -27,27 +69,26 @@ export default {
 <style>
 body {
   margin: 0;
+  background-color: #131313;
 }
 
 .app-layout {
-  display: flex;
-  flex-direction: row; /* 기본은 가로 배치 (PC) */
   min-height: 100vh;
 }
 
 .main-content {
-  flex: 1;
-  padding: 20px;
+  padding: 0;
+  background-color: #131313;
+  width: calc(100% - 260px);
+  float: right;
 }
 
 /* 스마트폰 화면 (768px 미만) */
 @media (max-width: 767px) {
-  .app-layout {
-    flex-direction: column; /* 세로 배치로 변경 */
-  }
-
   .main-content {
-    padding-bottom: 80px; /* 하단 바에 컨텐츠가 가려지지 않게 여백 추가 */
+    width: 100%;
+    float: none;
+    padding-bottom: 96px; /* 하단 네비 + FAB 영역 확보 */
   }
 }
 .fab-button {
@@ -84,17 +125,30 @@ body {
 
 /* 모바일 전용 여백 조절 (메뉴바와 겹치지 않게) */
 @media (max-width: 767px) {
-  .app-layout {
-    flex-direction: column;
-  }
-
   .main-content {
-    padding-bottom: 80px;
+    width: 100%;
+    float: none;
+    padding-bottom: 96px;
   }
 
   /* 모바일에서는 메뉴바(60px) 위로 버튼을 조금 더 올림 */
   .fab-button {
-    bottom: 80px;
+    right: 16px;
+    bottom: 88px;
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
   }
+}
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  background-color: #131313 !important;
+  margin: 0;
+  padding: 0;
 }
 </style>
