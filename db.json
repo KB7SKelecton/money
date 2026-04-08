@@ -436,8 +436,7 @@
       "type": "INCOME",
       "amount": 214124124,
       "transaction_date": "2026-03-31",
-      "memo": "ㄴㄻㄴㄹㄻㄴㄹㅋㅋㅋ카테고리되었나",
-      "id": 44
+      "memo": "ㄴㄻㄴㄹㄻㄴㄹㅋㅋㅋ카테고리되었나"
     },
     {
       "user_id": 1,
@@ -445,8 +444,9 @@
       "type": "INCOME",
       "amount": 123132131,
       "transaction_date": "2026-04-08",
-      "memo": "testsetsetestsse",
-      "id": 45
+      "memo": "testsetsetestsse"
+    },
+    {
       "id": 41,
       "user_id": 1,
       "category_id": 8,
