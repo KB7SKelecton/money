@@ -1,6 +1,7 @@
 <template>
-  <!-- 내역 화면 루트: KB 다크 테마, scoped 스타일 적용 -->
   <div class="list-screen">
+    <!-- 안쪽 카드: 모서리·내부 패딩 -->
+    <div class="list-panel">
     <!-- 상단: 탭만 (카테고리 / 월 / 일) -->
     <header class="page-head">
       <nav class="list-tabs" role="tablist" aria-label="내역 보기 방식">
@@ -97,6 +98,7 @@
         </ul>
       </div>
     </template>
+    </div>
   </div>
 </template>
 
@@ -377,29 +379,37 @@ onMounted(loadData);
 </script>
 
 <style scoped>
-/* ===== 레이아웃·테마 토큰 ===== */
+/* 바깥 여백 */
 .list-screen {
-  --kb-yellow: #ffbc00;
-  --kb-yellow-soft: #ffcc00;
-  --kb-gray: #60584c;
-  --bg: #000000;
-  --text: #ffffff;
-  --muted: #888888;
-  --icon-bg: #1a1a1a;
-  --line: #2a2a2a;
-
-  margin: -20px;
-  padding: 24px 20px 32px;
-  min-height: calc(100vh - 40px);
   box-sizing: border-box;
-  background: var(--bg);
-  color: var(--text);
+  padding: 28px 20px 20px;
+  min-height: 100%;
   font-family:
     'Pretendard',
     'Apple SD Gothic Neo',
     'Malgun Gothic',
     system-ui,
     sans-serif;
+}
+
+/* 패널: 둥근 모서리 + 내부 패딩 */
+.list-panel {
+  --kb-yellow: #ffbc00;
+  --kb-yellow-soft: #ffcc00;
+  --kb-gray: #60584c;
+  --bg: #0a0a0a;
+  --text: #ffffff;
+  --muted: #888888;
+  --icon-bg: #1a1a1a;
+  --line: #2a2a2a;
+
+  box-sizing: border-box;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 10px 12px 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
 .page-head {
@@ -641,12 +651,15 @@ onMounted(loadData);
   color: var(--text);
 }
 
-/* ===== 모바일: 하단 네비·FAB 여백, 탭 세로 스택 ===== */
+/* ===== 모바일: 좁은 화면 여백 + 하단 네비·FAB ===== */
 @media (max-width: 767px) {
   .list-screen {
-    margin: -20px -20px 0;
-    padding-bottom: 100px;
-    min-height: calc(100vh - 100px);
+    padding: 20px 16px 100px;
+  }
+
+  .list-panel {
+    padding: 16px 12px 20px;
+    border-radius: 14px;
   }
 
   .list-tabs {

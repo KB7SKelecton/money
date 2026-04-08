@@ -4,8 +4,6 @@ import Home from '@/pages/Home.vue';
 import List from '@/pages/List.vue';
 import RegisterPage from '@/pages/RegisterPage.vue';
 import Login from '@/pages/Login.vue';
-import Home from "@/pages/Home.vue";
-import List from "@/pages/List.vue";
 import MyPage from "@/pages/MyPage.vue";
 
 const router = createRouter({
