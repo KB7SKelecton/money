@@ -161,15 +161,6 @@
       "memo": "편의점 커피"
     },
     {
-      "id": 14,
-      "user_id": 1,
-      "category_id": 5,
-      "type": "EXPENSE",
-      "amount": 120000,
-      "transaction_date": "2026-04-10",
-      "memo": "주말 기차 여행 경비"
-    },
-    {
       "id": 15,
       "user_id": 1,
       "category_id": 6,
@@ -282,7 +273,7 @@
       "user_id": 1,
       "category_id": 5,
       "type": "EXPENSE",
-      "amount": 30000,
+      "amount": 40000,
       "transaction_date": "2026-04-27",
       "memo": "당일치기 나들이 비용"
     },
