@@ -1,8 +1,40 @@
 <template>
-  <div class="category-screen">
+  <div class="list-screen">
     <header class="page-head">
-      <h1 class="page-title">카테고리별 내역</h1>
-      <p class="page-sub">DB의 거래를 카테고리별로 묶어 수입·지출을 함께 표시합니다</p>
+      <h1 class="page-title">내역</h1>
+      <nav class="list-tabs" role="tablist" aria-label="내역 보기 방식">
+        <button
+          type="button"
+          role="tab"
+          class="list-tab"
+          :class="{ 'list-tab--active': activeTab === 'category' }"
+          :aria-selected="activeTab === 'category'"
+          @click="activeTab = 'category'"
+        >
+          카테고리별 내역
+        </button>
+        <button
+          type="button"
+          role="tab"
+          class="list-tab"
+          :class="{ 'list-tab--active': activeTab === 'month' }"
+          :aria-selected="activeTab === 'month'"
+          @click="activeTab = 'month'"
+        >
+          월별 내역
+        </button>
+        <button
+          type="button"
+          role="tab"
+          class="list-tab"
+          :class="{ 'list-tab--active': activeTab === 'day' }"
+          :aria-selected="activeTab === 'day'"
+          @click="activeTab = 'day'"
+        >
+          일별 내역
+        </button>
+      </nav>
+      <p class="page-sub">{{ tabHint }}</p>
     </header>
 
     <div v-if="loading" class="state-msg">불러오는 중…</div>
@@ -10,21 +42,21 @@
     <p v-else-if="activeUserId == null" class="state-msg state-err">
       users 데이터가 없어 내역을 표시할 수 없습니다.
     </p>
-    <p v-else-if="!categoryGroups.length" class="state-msg">표시할 내역이 없습니다.</p>
+    <p v-else-if="!panelGroups.length" class="state-msg">표시할 내역이 없습니다.</p>
 
     <template v-else>
       <div
-        v-for="group in categoryGroups"
-        :key="group.categoryId"
-        class="category-block"
+        v-for="group in panelGroups"
+        :key="group.key"
+        class="ledger-block"
       >
-        <div class="category-head">
-          <div class="category-icon" aria-hidden="true">{{ group.icon }}</div>
-          <div class="category-labels">
-            <span class="category-name">{{ group.nameKo }}</span>
-            <span class="category-en">{{ group.subtitle }}</span>
+        <div class="ledger-head">
+          <div class="ledger-icon" aria-hidden="true">{{ group.icon }}</div>
+          <div class="ledger-labels">
+            <span class="ledger-title">{{ group.title }}</span>
+            <span class="ledger-sub">{{ group.subtitle }}</span>
           </div>
-          <div class="category-totals">
+          <div class="ledger-totals">
             <span v-if="group.incomeTotal > 0" class="sum sum--income">
               + {{ formatWon(group.incomeTotal) }}₩
             </span>
@@ -48,6 +80,7 @@
             <div class="tx-body">
               <span class="tx-badge">{{ tx.type === 'INCOME' ? '수입' : '지출' }}</span>
               <span class="tx-title">{{ tx.memo || '내역' }}</span>
+              <span v-if="showCategoryMeta" class="tx-meta">{{ categoryName(tx.category_id) }}</span>
             </div>
             <div
               class="tx-amount"
@@ -70,7 +103,6 @@ import axios from 'axios';
 
 const API_BASE = '/api';
 
-/** DB에는 id·name만 있으므로 UI용 보조 정보는 컴포넌트 내부에서만 사용 */
 const CATEGORY_UI = {
   1: { en: 'ADMIN', icon: '📋' },
   2: { en: 'EDUCATION', icon: '📚' },
@@ -82,11 +114,31 @@ const CATEGORY_UI = {
   8: { en: 'BUSINESS', icon: '💼' },
 };
 
+const activeTab = ref('category');
 const loading = ref(true);
 const error = ref(null);
 const transactions = ref([]);
 const categories = ref([]);
 const activeUserId = ref(null);
+
+const tabHint = computed(() => {
+  const m = {
+    category: 'DB의 거래를 카테고리별로 묶어 수입·지출을 함께 표시합니다.',
+    month: '같은 달의 거래를 묶어 월별로 확인합니다.',
+    day: '같은 일자의 거래를 묶어 일별로 확인합니다.',
+  };
+  return m[activeTab.value] ?? m.category;
+});
+
+const showCategoryMeta = computed(() => activeTab.value !== 'category');
+
+const catById = computed(
+  () => new Map(categories.value.map((c) => [c.id, c])),
+);
+
+function categoryName(cid) {
+  return catById.value.get(cid)?.name ?? '—';
+}
 
 function uiForCategory(cat, id) {
   const u = CATEGORY_UI[id];
@@ -117,18 +169,28 @@ function formatDateParts(isoDate) {
   return { mmdd: `${mm}/${dd}`, sub: `${w}요일` };
 }
 
-const categoryGroups = computed(() => {
+function sortTxItems(items) {
+  return [...items].sort((a, b) => {
+    const db = new Date(b.transaction_date).getTime();
+    const da = new Date(a.transaction_date).getTime();
+    if (db !== da) return db - da;
+    return (b.id ?? 0) - (a.id ?? 0);
+  });
+}
+
+const userTransactions = computed(() => {
   const uid = activeUserId.value;
   if (uid == null) return [];
+  return transactions.value.filter((t) => t.user_id === uid);
+});
 
-  const catById = new Map(categories.value.map((c) => [c.id, c]));
-  const mine = transactions.value.filter((t) => t.user_id === uid);
+const categoryGroups = computed(() => {
   const byCat = new Map();
 
-  for (const t of mine) {
+  for (const t of userTransactions.value) {
     const cid = t.category_id;
     if (!byCat.has(cid)) {
-      const cat = catById.get(cid);
+      const cat = catById.value.get(cid);
       const ui = uiForCategory(cat, cid);
       byCat.set(cid, {
         categoryId: cid,
@@ -148,21 +210,130 @@ const categoryGroups = computed(() => {
   }
 
   for (const g of byCat.values()) {
-    g.items.sort((a, b) => {
-      const db = new Date(b.transaction_date).getTime();
-      const da = new Date(a.transaction_date).getTime();
-      if (db !== da) return db - da;
-      return (b.id ?? 0) - (a.id ?? 0);
-    });
+    g.items = sortTxItems(g.items);
   }
 
-  return [...byCat.values()].sort((a, b) => {
-    const vol =
+  return [...byCat.values()].sort(
+    (a, b) =>
       b.incomeTotal +
       b.expenseTotal -
-      (a.incomeTotal + a.expenseTotal);
-    return vol;
-  });
+      (a.incomeTotal + a.expenseTotal),
+  );
+});
+
+const monthGroups = computed(() => {
+  const byMonth = new Map();
+
+  for (const t of userTransactions.value) {
+    const raw = t.transaction_date;
+    if (!raw) continue;
+    const d = new Date(`${raw}T12:00:00`);
+    if (Number.isNaN(d.getTime())) continue;
+    const y = d.getFullYear();
+    const m = d.getMonth() + 1;
+    const key = `${y}-${String(m).padStart(2, '0')}`;
+    if (!byMonth.has(key)) {
+      byMonth.set(key, {
+        monthKey: key,
+        title: `${y}년 ${m}월`,
+        subtitle: `MONTHLY · ${y}.${String(m).padStart(2, '0')}`,
+        icon: '📅',
+        items: [],
+        incomeTotal: 0,
+        expenseTotal: 0,
+      });
+    }
+    const g = byMonth.get(key);
+    g.items.push(t);
+    const amt = Number(t.amount) || 0;
+    if (t.type === 'INCOME') g.incomeTotal += amt;
+    else if (t.type === 'EXPENSE') g.expenseTotal += amt;
+  }
+
+  const list = [...byMonth.values()];
+  for (const g of list) {
+    g.items = sortTxItems(g.items);
+  }
+  list.sort((a, b) => b.monthKey.localeCompare(a.monthKey));
+  return list;
+});
+
+const dayGroups = computed(() => {
+  const byDay = new Map();
+
+  for (const t of userTransactions.value) {
+    const raw = t.transaction_date;
+    if (!raw) continue;
+    const d = new Date(`${raw}T12:00:00`);
+    if (Number.isNaN(d.getTime())) continue;
+    const y = d.getFullYear();
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    const key = `${y}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    if (!byDay.has(key)) {
+      const title = d.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+      });
+      byDay.set(key, {
+        dayKey: key,
+        title,
+        subtitle: `DAILY · ${key}`,
+        icon: '📆',
+        items: [],
+        incomeTotal: 0,
+        expenseTotal: 0,
+      });
+    }
+    const g = byDay.get(key);
+    g.items.push(t);
+    const amt = Number(t.amount) || 0;
+    if (t.type === 'INCOME') g.incomeTotal += amt;
+    else if (t.type === 'EXPENSE') g.expenseTotal += amt;
+  }
+
+  const list = [...byDay.values()];
+  for (const g of list) {
+    g.items = sortTxItems(g.items);
+  }
+  list.sort((a, b) => b.dayKey.localeCompare(a.dayKey));
+  return list;
+});
+
+const panelGroups = computed(() => {
+  if (activeTab.value === 'category') {
+    return categoryGroups.value.map((g) => ({
+      key: `c-${g.categoryId}`,
+      title: g.nameKo,
+      subtitle: g.subtitle,
+      icon: g.icon,
+      incomeTotal: g.incomeTotal,
+      expenseTotal: g.expenseTotal,
+      items: g.items,
+    }));
+  }
+  if (activeTab.value === 'month') {
+    return monthGroups.value.map((g) => ({
+      key: `m-${g.monthKey}`,
+      title: g.title,
+      subtitle: g.subtitle,
+      icon: g.icon,
+      incomeTotal: g.incomeTotal,
+      expenseTotal: g.expenseTotal,
+      items: g.items,
+    }));
+  }
+  return dayGroups.value.map((g) => ({
+    key: `d-${g.dayKey}`,
+    title: g.title,
+    subtitle: g.subtitle,
+    icon: g.icon,
+    incomeTotal: g.incomeTotal,
+    expenseTotal: g.expenseTotal,
+    items: g.items,
+  }));
 });
 
 async function loadData() {
@@ -191,7 +362,7 @@ onMounted(loadData);
 </script>
 
 <style scoped>
-.category-screen {
+.list-screen {
   --kb-yellow: #ffbc00;
   --kb-yellow-soft: #ffcc00;
   --kb-gray: #60584c;
@@ -216,17 +387,55 @@ onMounted(loadData);
 }
 
 .page-head {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(255, 188, 0, 0.08) 0%, transparent 100%);
 }
 
 .page-title {
-  margin: 0 0 6px;
+  margin: 0 0 14px;
   font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+.list-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.list-tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--icon-bg);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  line-height: 1.25;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.list-tab:hover {
+  color: var(--text);
+  border-color: var(--kb-gray);
+}
+
+.list-tab--active {
+  color: var(--text);
+  border-color: var(--kb-yellow);
+  box-shadow: 0 0 0 1px rgba(255, 188, 0, 0.35);
+  background: rgba(255, 188, 0, 0.08);
 }
 
 .page-sub {
@@ -246,22 +455,22 @@ onMounted(loadData);
   color: #ff9e9e;
 }
 
-.category-block {
+.ledger-block {
   margin-bottom: 36px;
 }
 
-.category-block:last-child {
+.ledger-block:last-child {
   margin-bottom: 0;
 }
 
-.category-head {
+.ledger-head {
   display: flex;
   align-items: flex-start;
   gap: 12px;
   margin-bottom: 12px;
 }
 
-.category-icon {
+.ledger-icon {
   width: 44px;
   height: 44px;
   border-radius: 12px;
@@ -274,7 +483,7 @@ onMounted(loadData);
   border: 1px solid var(--line);
 }
 
-.category-labels {
+.ledger-labels {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -282,13 +491,13 @@ onMounted(loadData);
   gap: 2px;
 }
 
-.category-name {
+.ledger-title {
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
-.category-en {
+.ledger-sub {
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -296,7 +505,7 @@ onMounted(loadData);
   text-transform: uppercase;
 }
 
-.category-totals {
+.ledger-totals {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -391,6 +600,11 @@ onMounted(loadData);
   word-break: break-word;
 }
 
+.tx-meta {
+  font-size: 0.72rem;
+  color: var(--kb-gray);
+}
+
 .tx-amount {
   font-size: 0.88rem;
   font-weight: 600;
@@ -408,10 +622,20 @@ onMounted(loadData);
 }
 
 @media (max-width: 767px) {
-  .category-screen {
+  .list-screen {
     margin: -20px -20px 0;
     padding-bottom: 100px;
     min-height: calc(100vh - 100px);
+  }
+
+  .list-tabs {
+    flex-direction: column;
+  }
+
+  .list-tab {
+    flex: none;
+    width: 100%;
+    text-align: center;
   }
 }
 </style>
