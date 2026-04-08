@@ -12,6 +12,7 @@
             >잔고 : {{ balance.toLocaleString() }}원</span
           >
         </div>
+        <Chart />
       </div>
     </div>
 
@@ -85,18 +86,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import axios from "axios";
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import Chart from '@/components/Chart.vue';
 
 const router = useRouter();
 
 const balance = ref(0);
 
 const user = ref({
-  name: "",
-  email: "",
-  avatar: "",
+  name: '',
+  email: '',
+  avatar: '',
 });
 
 // 이름 수정 모드 여부 (true: input 표시, false: 텍스트 표시)
@@ -107,7 +109,7 @@ const isEditingEmail = ref(false);
 
 // 로그아웃: 홈으로 이동 (나중에 /login으로 변경 예정)
 function logout() {
-  router.push("/");
+  router.push('/');
 }
 
 // 이름 수정 시작: 텍스트 클릭 시 실행
@@ -119,7 +121,7 @@ function startEdit() {
 async function finishEdit() {
   isEditingName.value = false;
   // 이름 수정 완료 시 db에 저장
-  await axios.patch("http://localhost:3000/users/1", {
+  await axios.patch('http://localhost:3000/users/1', {
     nickname: user.value.name,
   });
 }
@@ -133,13 +135,13 @@ function startEditEmail() {
 async function finishEditEmail() {
   isEditingEmail.value = false;
   // 이메일 수정 완료 시 db에 저장
-  await axios.patch("http://localhost:3000/users/1", {
+  await axios.patch('http://localhost:3000/users/1', {
     email: user.value.email,
   });
 }
 
 onMounted(async () => {
-  const res = await axios.get("http://localhost:3000/users/1");
+  const res = await axios.get('http://localhost:3000/users/1');
   user.value.name = res.data.nickname;
   user.value.email = res.data.email;
   user.value.avatar = res.data.profile_image_url;
@@ -167,7 +169,7 @@ function onAvatarChange(event) {
   min-height: 100vh;
   background-color: #131313;
   padding: 0;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* 왼쪽 메인 영역: 나머지 공간 전부 차지 */
@@ -365,7 +367,7 @@ function onAvatarChange(event) {
   padding: 6px 10px;
   width: 100%;
   outline: none;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* 이메일 수정 input */
@@ -380,7 +382,7 @@ function onAvatarChange(event) {
   width: 100%;
   outline: none;
   opacity: 0.7;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* 사이드바 아래쪽: 로그아웃 버튼 영역 */
@@ -404,7 +406,7 @@ function onAvatarChange(event) {
   cursor: pointer;
   font-size: 1rem;
   font-weight: 400;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -275,19 +275,19 @@ const changeMonth = (offset) => {
 
 /* 텍스트 크기 강화 */
 h3 {
-  font-size: 1.7rem;
+  font-size: 1.4rem;
   margin: 0;
   font-weight: 800;
   color: #fff;
 }
 .subtitle {
   color: #888;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   margin-top: 8px;
 }
 .highlight {
   color: #f8a70c;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   margin-top: 8px;
 }
