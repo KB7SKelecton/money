@@ -1,10 +1,10 @@
 <template>
   <div class="card card-body">
-    <h2>About</h2>
+    <h2>MyPage</h2>
   </div>
 </template>
 <script>
 export default {
-  name: 'About',
+  name: 'MyPage',
 };
 </script>

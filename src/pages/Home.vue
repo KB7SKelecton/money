@@ -2,7 +2,7 @@
   <!-- 상단 네비게이션 및 유저 정보 -->
   <div class="main-layout">
     <nav class="header-bar">
-      <div class="logo">💰 My Wallet</div>
+      <div class="logo">홈/달력</div>
       <div class="user-info" v-if="userData">
         <img :src="userData.profile_image_url" class="profile-img" />
         <span>{{ userData.nickname }}님 환영합니다</span>
@@ -12,6 +12,41 @@
     <!-- 달력 컨트롤러 -->
     <div class="content-wrapper">
       <main class="calendar-container">
+        <!-- 잔고, 수입, 지출창 -->
+        <div class="mypage-balance">
+          <span class="balance-label">AVAILABLE ASSETS</span>
+          <span class="balance-amount"
+            >잔고 : {{ balance.toLocaleString() }}원</span
+          >
+
+          <section class="summary-container">
+            <div class="mypage-balance income-box">
+              <span class="balance-label">MONTHLY INCOME</span>
+              <span class="balance-amount">
+                + {{ totalMonthlyIncome.toLocaleString() }}원
+              </span>
+            </div>
+
+            <div class="mypage-balance expense-box">
+              <span class="balance-label">MONTHLY EXPENSE</span>
+              <span class="balance-amount">
+                - {{ totalMonthlyExpense.toLocaleString() }}원
+              </span>
+            </div>
+
+            <div class="mypage-balance total-box">
+              <span class="balance-label">TOTAL NET</span>
+              <span class="balance-amount">
+                {{ totalMonthlyIncome - totalMonthlyExpense >= 0 ? '+' : '' }}
+                {{
+                  (totalMonthlyIncome - totalMonthlyExpense).toLocaleString()
+                }}원
+              </span>
+            </div>
+          </section>
+
+          <!-- 잔고창 끝 달력의 시작 -->
+        </div>
         <header class="calendar-control">
           <button @click="changeMonth(-1)" class="nav-btn">◀</button>
           <h2 class="current-month">
@@ -107,7 +142,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import db from '../../db.json';
 
@@ -206,6 +241,38 @@ const goToday = () => {
 const showDetails = (date) => {
   selectedDate.value = date;
 };
+const balance = ref(0);
+
+onMounted(async () => {
+  const res = await axios.get('http://localhost:3000/users/1');
+  balance.value = res.data.initial_balance;
+});
+const totalMonthlyIncome = computed(() => {
+  return db.transactions
+    .filter((t) => {
+      const d = new Date(t.transaction_date);
+      return (
+        d.getFullYear() === currentYear.value &&
+        d.getMonth() === currentMonth.value &&
+        t.type === 'INCOME'
+      );
+    })
+    .reduce((sum, t) => sum + t.amount, 0);
+});
+
+// 현재 달력에 표시된 월의 총 지출 합산
+const totalMonthlyExpense = computed(() => {
+  return db.transactions
+    .filter((t) => {
+      const d = new Date(t.transaction_date);
+      return (
+        d.getFullYear() === currentYear.value &&
+        d.getMonth() === currentMonth.value &&
+        t.type === 'EXPENSE'
+      );
+    })
+    .reduce((sum, t) => sum + t.amount, 0);
+});
 </script>
 
 <style scoped>
@@ -214,28 +281,47 @@ const showDetails = (date) => {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #1a1c1e; /* bg-surface-container 대용 */
-  color: #e2e2e6; /* text-on-surface */
-  font-family: 'Pretendard', sans-serif;
+  background-color: #131313; /* 더 깊은 블랙으로 변경 */
+  color: #e5e2e1;
+  font-family: 'Manrope', 'Pretendard', sans-serif;
 }
 
 /* 헤더: 투명도와 보더 라인 조정 */
 .header-bar {
-  height: 60px;
-  background: #1a1c1e;
+  height: 64px;
+  background: #131313;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #f8a70c;
+  font-style: italic;
+  letter-spacing: -0.05em;
 }
 
 /* 프로필 이미지 */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #2a2a2a;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 .profile-img {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  margin-right: 8px;
+  border: 2px solid #f8a70c;
 }
 
 /* 컨텐츠 영역 */
@@ -245,213 +331,366 @@ const showDetails = (date) => {
   overflow: hidden;
 }
 
-/* 캘린더 영역: 배경색을 surface 톤으로 */
+/* 캘린더 영역 */
 .calendar-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #1a1c1e;
-  padding: 20px;
+  background: #131313;
+  padding: 32px;
+  overflow-y: auto;
 }
 
 /* 달력 상단 월 컨트롤러 */
 .calendar-control {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* 왼쪽 정렬로 변경하여 세련미 강조 */
   align-items: center;
-  gap: 20px;
-  margin-bottom: 20px;
-  font-weight: bold;
-  color: #f8a70c;
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
-/* 캘린더 그리드: Material Design 스타일 보더 */
+.current-month {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #e5e2e1;
+  letter-spacing: -0.02em;
+}
+
+.nav-btn {
+  background: #2a2a2a;
+  color: #e5e2e1;
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #353534;
+}
+
+.today-btn {
+  margin-left: auto;
+  padding: 6px 16px;
+  background: #2a2a2a;
+  color: #d7c3ad;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 캘린더 그리드 */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: minmax(100px, 1fr);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-  flex: 1;
+  background: rgba(255, 255, 255, 0.05); /* 격자 선 역할 */
+  gap: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 /* 요일 라벨 */
 .day-label {
-  padding: 10px;
+  padding: 16px 0;
   text-align: center;
-  font-weight: bold;
-  background: rgba(255, 255, 255, 0.02);
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: #c4c6cf;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background: #1c1b1b;
+  color: rgba(229, 226, 225, 0.5);
 }
+
+.day-label:first-child {
+  color: #ffb4ab;
+} /* 일요일 */
+.day-label:last-child {
+  color: #ffd483;
+} /* 토요일 */
 
 /* 개별 날짜 칸 스타일 */
 .date-cell {
-  padding: 8px;
-  background: #212427; /* bg-surface-container */
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: 120px;
+  padding: 12px;
+  background: #131313;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
   display: flex;
   flex-direction: column;
-  text-align: left;
+  gap: 4px;
 }
 
-/* 마우스 호버 시 배경색 변경 */
 .date-cell:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: #1c1b1b;
 }
 
-/* 선택된 날짜 노란색 테두리와 투명 배경으로 강조 */
+/* 선택된 날짜 강조 */
 .date-cell.selected {
-  background: rgba(248, 167, 12, 0.1); /* 포인트 컬러 투명도 */
-  outline: 1px solid #f8a70c;
+  background: rgba(248, 167, 12, 0.05);
+  box-shadow: inset 0 0 0 2px #f8a70c;
   z-index: 1;
 }
 
-/* 이전/다음 달 날짜 */
-.not-current {
-  color: rgba(255, 255, 255, 0.2);
+/* 날짜 숫자 */
+.date-num {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #f8a70c;
 }
 
 /* 오늘 날짜 강조 */
 .is-today .date-num {
-  color: #f8a70c; /* primary-container 계열 강조색 */
-  font-weight: bold;
+  background-color: #f8a70c;
+  color: #131313;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 800;
 }
 
-/* 수입/지출 태그: HTML 샘플의 error-container 스타일 반영 */
+.not-current {
+  opacity: 0.2;
+}
+
+/* 수입/지출 태그 */
 .cell-income {
-  margin-top: 4px;
-  color: #ffffff; /* 지출과 대비되는 수입 컬러 */
   font-size: 10px;
-  background: rgba(132, 212, 255, 0.1);
+  font-weight: 700;
+  color: #81c784; /* 부드러운 초록 */
+  background: rgba(129, 199, 132, 0.1);
   padding: 2px 6px;
   border-radius: 4px;
-  align-self: flex-start;
+  width: fit-content;
 }
 
-/* 지출 요약 태그 노란색 */
 .cell-expense {
-  margin-top: 4px;
-  color: #ffee03; /* text-error */
   font-size: 10px;
-  background: rgba(255, 180, 171, 0.15); /* bg-error-container/20 */
+  font-weight: 700;
+  color: #ffb4ab; /* 부드러운 레드 */
+  background: rgba(255, 180, 171, 0.1);
   padding: 2px 6px;
   border-radius: 4px;
-  align-self: flex-start;
+  width: fit-content;
 }
 
-/* 사이드바: 우측 패널 스타일 */
+/* 사이드바: 우측 패널 */
 .side-bar {
-  width: 320px;
-  background: #1a1c1e;
+  width: 360px;
+  background: #131313;
   border-left: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 20px;
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
 }
 
-/* 우측 하단 고정 추가 버튼 */
-.detail-date {
-  font-weight: bold;
+.side-bar h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
   color: #f8a70c;
+  margin-bottom: 24px;
+}
+
+.detail-date {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(229, 226, 225, 0.6);
   margin-bottom: 20px;
 }
 
 .transaction-list {
   flex: 1;
   overflow-y: auto;
+  padding-right: 8px;
 }
 
 .t-item {
   display: flex;
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  align-items: center;
+  padding: 16px;
+  background: #201f1f;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.t-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .t-cat {
-  font-size: 0.75rem;
-  color: #909094;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #f8a70c;
+  text-transform: uppercase;
 }
 
 .t-memo {
-  font-size: 0.9rem;
-  color: #e2e2e6;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #e5e2e1;
 }
 
 .t-amount {
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 800;
 }
 
-.income {
-  color: #ffffff;
+.t-amount.income {
+  color: #81c784;
 }
-.expense {
-  color: #ffee03;
+.t-amount.expense {
+  color: #ffb4ab;
 }
 
 .detail-footer {
-  margin-top: 20px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
+  margin-top: auto;
+  padding: 20px;
+  background: #2a2a2a;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* Floating Action Button 스타일 */
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.footer-row span:first-child {
+  color: rgba(229, 226, 225, 0.5);
+}
+.footer-row .income {
+  color: #81c784;
+  font-weight: 700;
+}
+.footer-row .expense {
+  color: #ffb4ab;
+  font-weight: 700;
+}
+
+/* Floating Action Button */
 .fab {
   position: fixed;
   bottom: 40px;
   right: 40px;
   width: 64px;
   height: 64px;
-  background: #f8a70c; /* bg-primary-container */
-  color: #412d00; /* on-primary-container */
-  border-radius: 50%;
+  background: #f8a70c;
+  color: #452b00;
+  border-radius: 20px; /* 약간 각진 조약돌 모양 */
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(248, 167, 12, 0.3);
+  box-shadow: 0 12px 32px rgba(248, 167, 12, 0.3);
   border: none;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 2rem;
+  z-index: 100;
 }
 
 .fab:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(90deg);
+  background: #ffca82;
 }
 
 .empty-msg {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(229, 226, 225, 0.2);
   text-align: center;
-  margin-top: 50px;
-  font-style: italic;
-  font-size: 0.8rem;
+  margin-top: 60px;
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
-/* 월, 화, 수... 요일 레이블 */
-.day-label {
-  color: #f8a70c; /* 노란색 */
-  font-weight: bold;
+.mypage-balance {
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 
-/* 1, 2, 3... 날짜 숫자 */
-.date-cell {
-  color: #f8a70c; /* 날짜 숫자 노란색 */
-  /* 배경색이 너무 밝으면 글자가 안 보이니 어두운 배경 추천 */
-  background-color: #212427;
+.balance-label {
+  font-size: 0.7rem;
+  color: #f8a70c;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
 }
-.not-current {
-  /* 노란색에 투명도를 30% 정도 섞음 */
-  color: rgba(248, 167, 12, 0.3);
+
+.balance-amount {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e5e2e1;
 }
-.is-today .date-num {
+.summary-container {
+  display: flex;
+  gap: 15px;
+  padding: 20px;
+  flex-wrap: wrap; /* 화면이 좁아지면 아래로 내려가도록 */
+}
+
+/* 공통 카드 스타일 (기존 제공해주신 스타일 기반) */
+.mypage-balance {
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  flex: 1; /* 3개가 동일한 너비를 가짐 */
+  min-width: 200px; /* 너무 작아지지 않게 제한 */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.balance-label {
+  font-size: 0.7rem;
+  color: #f8a70c; /* 기본 노란색 */
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.balance-amount {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e5e2e1;
+  white-space: nowrap;
+}
+
+/* 수입 강조 (초록빛/파란빛) */
+.income-box .balance-label {
+  color: #84d4ff;
+}
+.income-box .balance-amount {
+  color: #84d4ff;
+}
+
+/* 지출 강조 (노란색/주황색) */
+.expense-box .balance-label {
+  color: #ffee03;
+}
+.expense-box .balance-amount {
+  color: #ffee03;
+}
+
+/* 통합창 강조 (이미지처럼 배경색 반전 효과 가능) */
+.total-box {
   background-color: #f8a70c; /* 배경을 노란색으로 */
-  color: #1a1c1e; /* 글자는 어두운 색으로 */
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: bold;
+}
+.total-box .balance-label {
+  color: #1a1c1e;
+}
+.total-box .balance-amount {
+  color: #1a1c1e;
 }
 </style>
