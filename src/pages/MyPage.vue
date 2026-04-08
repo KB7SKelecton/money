@@ -15,89 +15,22 @@
         <Chart />
       </div>
     </div>
-
-    <!-- 오른쪽 사이드바 -->
-    <div class="mypage-sidebar">
-      <!-- 사이드바 위쪽: 프로필 영역 -->
-      <div class="sidebar-top">
-        <!-- 프로필 이미지: 클릭하면 숨겨진 파일 input 실행 -->
-        <div class="profile-avatar" @click="$refs.avatarInput.click()">
-          <!-- avatar 값 있으면 이미지 표시, 없으면 기본 사람 아이콘 표시 -->
-          <img v-if="user.avatar" :src="user.avatar" alt="프로필" />
-          <i v-else class="fa-solid fa-user profile-default-icon"></i>
-          <!-- 호버 시 나타나는 카메라 아이콘 오버레이 -->
-          <div class="avatar-overlay">
-            <i class="fa-solid fa-camera"></i>
-          </div>
-          <!-- 인증 뱃지 -->
-          <div class="verified-badge">
-            <i class="fa-solid fa-check"></i>
-          </div>
-        </div>
-
-        <!-- 숨겨진 파일 input: profile-avatar 클릭 시 여기가 실행됨 -->
-        <input
-          ref="avatarInput"
-          type="file"
-          accept="image/*"
-          style="display: none"
-          @change="onAvatarChange"
-        />
-
-        <!-- 이름: isEditingName이 false면 텍스트, true면 input으로 바뀜 -->
-        <p v-if="!isEditingName" class="profile-name" @click="startEdit">
-          {{ user.name }} <i class="fa-solid fa-pen"></i>
-        </p>
-        <!-- 이름 수정 input: blur(바깥클릭) 또는 Enter 입력 시 finishEdit 실행 -->
-        <input
-          v-else
-          class="profile-name-input"
-          v-model="user.name"
-          @blur="finishEdit"
-          @keyup.enter="finishEdit"
-          autofocus
-        />
-
-        <!-- 이메일: isEditingEmail이 false면 텍스트, true면 input으로 바뀜 -->
-        <p v-if="!isEditingEmail" class="profile-email" @click="startEditEmail">
-          {{ user.email }} <i class="fa-solid fa-pen"></i>
-        </p>
-        <!-- 이메일 수정 input: blur(바깥클릭) 또는 Enter 입력 시 finishEditEmail 실행 -->
-        <input
-          v-else
-          class="profile-email-input"
-          v-model="user.email"
-          @blur="finishEditEmail"
-          @keyup.enter="finishEditEmail"
-          autofocus
-        />
-      </div>
-
-      <!-- 사이드바 아래쪽: 로그아웃 버튼 영역 -->
-      <div class="sidebar-bottom">
-        <button class="logout-btn" @click="logout">
-          <i class="fa-solid fa-right-from-bracket"></i>
-          로그아웃
-        </button>
-        <p class="secured-text">SECURED BY Show Me The Money</p>
-      </div>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import Chart from '@/components/Chart.vue';
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+import Chart from "@/components/Chart.vue";
 const router = useRouter();
 
 const balance = ref(0);
 
 const user = ref({
-  name: '',
-  email: '',
-  avatar: '',
+  name: "",
+  email: "",
+  avatar: "",
 });
 
 // 이름 수정 모드 여부 (true: input 표시, false: 텍스트 표시)
@@ -108,7 +41,7 @@ const isEditingEmail = ref(false);
 
 // 로그아웃: 홈으로 이동 (나중에 /login으로 변경 예정)
 function logout() {
-  router.push('/');
+  router.push("/");
 }
 
 // 이름 수정 시작: 텍스트 클릭 시 실행
@@ -120,7 +53,7 @@ function startEdit() {
 async function finishEdit() {
   isEditingName.value = false;
   // 이름 수정 완료 시 db에 저장
-  await axios.patch('http://localhost:3000/users/1', {
+  await axios.patch("http://localhost:3000/users/1", {
     nickname: user.value.name,
   });
 }
@@ -134,13 +67,13 @@ function startEditEmail() {
 async function finishEditEmail() {
   isEditingEmail.value = false;
   // 이메일 수정 완료 시 db에 저장
-  await axios.patch('http://localhost:3000/users/1', {
+  await axios.patch("http://localhost:3000/users/1", {
     email: user.value.email,
   });
 }
 
 onMounted(async () => {
-  const res = await axios.get('http://localhost:3000/users/1');
+  const res = await axios.get("http://localhost:3000/users/1");
   user.value.name = res.data.nickname;
   user.value.email = res.data.email;
   user.value.avatar = res.data.profile_image_url;
@@ -168,7 +101,7 @@ function onAvatarChange(event) {
   min-height: 100vh;
   background-color: #131313;
   padding: 0;
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
 }
 
 /* 왼쪽 메인 영역: 나머지 공간 전부 차지 */
@@ -353,7 +286,7 @@ function onAvatarChange(event) {
   padding: 6px 10px;
   width: 100%;
   outline: none;
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
 }
 
 /* 이메일 수정 input */
@@ -368,7 +301,7 @@ function onAvatarChange(event) {
   width: 100%;
   outline: none;
   opacity: 0.7;
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
 }
 
 /* 사이드바 아래쪽: 로그아웃 버튼 영역 */
@@ -392,7 +325,7 @@ function onAvatarChange(event) {
   cursor: pointer;
   font-size: 1rem;
   font-weight: 400;
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
