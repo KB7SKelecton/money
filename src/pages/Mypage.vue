@@ -197,7 +197,7 @@ function onAvatarChange(event) {
 .mypage-balance {
   background-color: #2a2a2a;
   border-radius: 12px;
-  padding: 16px 24px;
+  padding: 16px 40px;
   display: inline-flex;
   align-items: flex-start;
   gap: 1px;
