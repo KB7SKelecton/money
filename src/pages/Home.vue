@@ -209,25 +209,28 @@ const showDetails = (date) => {
 </script>
 
 <style scoped>
-/* 레이아웃 깨짐 방지 핵심 스타일 */
+/* 전체 레이아웃: 다크 모드 테마 적용 및 전체 화면 높이 설정 */
 .main-layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #f0f2f5;
-  font-family: sans-serif;
+  background-color: #1a1c1e; /* bg-surface-container 대용 */
+  color: #e2e2e6; /* text-on-surface */
+  font-family: 'Pretendard', sans-serif;
 }
 
+/* 헤더: 투명도와 보더 라인 조정 */
 .header-bar {
   height: 60px;
-  background: #fff;
+  background: #1a1c1e;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* 프로필 이미지 */
 .profile-img {
   width: 32px;
   height: 32px;
@@ -235,140 +238,220 @@ const showDetails = (date) => {
   margin-right: 8px;
 }
 
+/* 컨텐츠 영역 */
 .content-wrapper {
   display: flex;
   flex: 1;
-  overflow: hidden; /* 전체 스크롤 방지 */
+  overflow: hidden;
 }
 
+/* 캘린더 영역: 배경색을 surface 톤으로 */
 .calendar-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: #1a1c1e;
   padding: 20px;
 }
 
+/* 달력 상단 월 컨트롤러 */
 .calendar-control {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   margin-bottom: 20px;
+  font-weight: bold;
+  color: #f8a70c;
 }
 
+/* 캘린더 그리드: Material Design 스타일 보더 */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: minmax(100px, 1fr); /* 셀 높이 균등 배분 */
-  border-top: 1px solid #eee;
-  border-left: 1px solid #eee;
+  grid-auto-rows: minmax(100px, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
   flex: 1;
 }
 
+/* 요일 라벨 */
 .day-label {
   padding: 10px;
   text-align: center;
   font-weight: bold;
-  background: #fafafa;
-  border-right: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  background: rgba(255, 255, 255, 0.02);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #c4c6cf;
 }
 
+/* 개별 날짜 칸 스타일 */
 .date-cell {
-  padding: 5px;
-  border-right: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  padding: 8px;
+  background: #212427; /* bg-surface-container */
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.2s;
   display: flex;
   flex-direction: column;
+  text-align: left;
 }
 
+/* 마우스 호버 시 배경색 변경 */
 .date-cell:hover {
-  background: #f0f7ff;
+  background: rgba(255, 255, 255, 0.08);
 }
+
+/* 선택된 날짜 노란색 테두리와 투명 배경으로 강조 */
 .date-cell.selected {
-  background: #e6f7ff;
-  border: 1px solid #1890ff;
+  background: rgba(248, 167, 12, 0.1); /* 포인트 컬러 투명도 */
+  outline: 1px solid #f8a70c;
+  z-index: 1;
 }
+
+/* 이전/다음 달 날짜 */
 .not-current {
-  color: #ccc;
-  background: #fcfcfc;
+  color: rgba(255, 255, 255, 0.2);
 }
+
+/* 오늘 날짜 강조 */
 .is-today .date-num {
-  color: #ff4d4f;
+  color: #f8a70c; /* primary-container 계열 강조색 */
   font-weight: bold;
-  text-decoration: underline;
 }
 
+/* 수입/지출 태그: HTML 샘플의 error-container 스타일 반영 */
 .cell-income {
-  color: #52c41a;
-  font-size: 0.7rem;
-  text-align: right;
-}
-.cell-expense {
-  color: #ff4d4f;
-  font-size: 0.7rem;
-  text-align: right;
+  margin-top: 4px;
+  color: #ffffff; /* 지출과 대비되는 수입 컬러 */
+  font-size: 10px;
+  background: rgba(132, 212, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  align-self: flex-start;
 }
 
-/* 사이드바 스타일 */
+/* 지출 요약 태그 노란색 */
+.cell-expense {
+  margin-top: 4px;
+  color: #ffee03; /* text-error */
+  font-size: 10px;
+  background: rgba(255, 180, 171, 0.15); /* bg-error-container/20 */
+  padding: 2px 6px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+/* 사이드바: 우측 패널 스타일 */
 .side-bar {
-  width: 350px;
-  background: #fff;
-  border-left: 1px solid #ddd;
+  width: 320px;
+  background: #1a1c1e;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
   padding: 20px;
   display: flex;
   flex-direction: column;
 }
 
+/* 우측 하단 고정 추가 버튼 */
 .detail-date {
   font-weight: bold;
-  color: #666;
-  margin-bottom: 15px;
+  color: #f8a70c;
+  margin-bottom: 20px;
 }
+
 .transaction-list {
   flex: 1;
   overflow-y: auto;
 }
+
 .t-item {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
+
 .t-cat {
-  font-size: 0.7rem;
-  color: #999;
-  display: block;
+  font-size: 0.75rem;
+  color: #909094;
 }
+
 .t-memo {
   font-size: 0.9rem;
+  color: #e2e2e6;
 }
+
 .t-amount {
   font-weight: bold;
 }
+
 .income {
-  color: #52c41a;
+  color: #ffffff;
 }
 .expense {
-  color: #ff4d4f;
+  color: #ffee03;
 }
 
 .detail-footer {
   margin-top: 20px;
-  padding-top: 15px;
-  border-top: 2px solid #eee;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
 }
-.footer-row {
+
+/* Floating Action Button 스타일 */
+.fab {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 64px;
+  height: 64px;
+  background: #f8a70c; /* bg-primary-container */
+  color: #412d00; /* on-primary-container */
+  border-radius: 50%;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(248, 167, 12, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
+
+.fab:hover {
+  transform: scale(1.1);
+}
+
 .empty-msg {
-  color: #ccc;
+  color: rgba(255, 255, 255, 0.2);
   text-align: center;
   margin-top: 50px;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+/* 월, 화, 수... 요일 레이블 */
+.day-label {
+  color: #f8a70c; /* 노란색 */
+  font-weight: bold;
+}
+
+/* 1, 2, 3... 날짜 숫자 */
+.date-cell {
+  color: #f8a70c; /* 날짜 숫자 노란색 */
+  /* 배경색이 너무 밝으면 글자가 안 보이니 어두운 배경 추천 */
+  background-color: #212427;
+}
+.not-current {
+  /* 노란색에 투명도를 30% 정도 섞음 */
+  color: rgba(248, 167, 12, 0.3);
+}
+.is-today .date-num {
+  background-color: #f8a70c; /* 배경을 노란색으로 */
+  color: #1a1c1e; /* 글자는 어두운 색으로 */
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
 }
 </style>
