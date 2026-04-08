@@ -491,7 +491,6 @@
       "transaction_date": "2025-12-25",
       "memo": "보너스"
     },
-
     {
       "id": 46,
       "user_id": 1,
@@ -546,7 +545,6 @@
       "transaction_date": "2026-01-20",
       "memo": "프로젝트 정산"
     },
-
     {
       "id": 52,
       "user_id": 1,
