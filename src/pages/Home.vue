@@ -12,7 +12,7 @@
         <div class="mypage-balance">
           <span class="balance-label"></span>
           <span class="balance-amount"
-            >잔고 : {{ balance.toLocaleString() }}원</span
+            >잔고 : {{ totalBalance.toLocaleString() }}원</span
           >
 
           <section class="summary-container">
@@ -269,6 +269,33 @@ const totalMonthlyExpense = computed(() => {
     })
     .reduce((sum, t) => sum + t.amount, 0);
 });
+
+// ... 기존 상수(today, currentYear 등) 동일 ...
+
+const initialBalance = ref(0);
+
+// API로는 오직 사용자의 "기본 시작 금액"만 가져옵니다.
+onMounted(async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/users/1');
+    initialBalance.value = res.data.initial_balance;
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+/**
+ * [수정된 부분] 실시간 잔고 계산
+ * initial_balance(시작 금액) + 모든 수입 - 모든 지출
+ */
+const totalBalance = computed(() => {
+  const totalChange = db.transactions.reduce((acc, t) => {
+    return t.type === 'INCOME' ? acc + t.amount : acc - t.amount;
+  }, 0);
+  return initialBalance.value + totalChange;
+});
+
+// ... 기존의 totalMonthlyIncome, totalMonthlyExpense 등은 그대로 유지 ...
 </script>
 
 <style scoped>
