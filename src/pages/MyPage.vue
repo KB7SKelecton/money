@@ -19,13 +19,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue"; // computed 추가
 import { useRouter } from "vue-router";
 import axios from "axios";
 import Chart from "@/components/Chart.vue";
-const router = useRouter();
+import db from "../../db.json"; // db import 추가
 
-const balance = ref(0);
+const router = useRouter();
 
 const user = ref({
   name: "",
@@ -33,63 +33,62 @@ const user = ref({
   avatar: "",
 });
 
-// 이름 수정 모드 여부 (true: input 표시, false: 텍스트 표시)
-const isEditingName = ref(false);
+const initialBalance = ref(0);
 
-// 이메일 수정 모드 여부 (true: input 표시, false: 텍스트 표시)
+// balance는 computed로 선언 (onMounted 밖에!)
+const balance = computed(() => {
+  const totalChange = db.transactions.reduce((acc, t) => {
+    return t.type === "INCOME" ? acc + t.amount : acc - t.amount;
+  }, 0);
+  return initialBalance.value + totalChange;
+});
+
+const isEditingName = ref(false);
 const isEditingEmail = ref(false);
 
-// 로그아웃: 홈으로 이동 (나중에 /login으로 변경 예정)
 function logout() {
   router.push("/");
 }
 
-// 이름 수정 시작: 텍스트 클릭 시 실행
 function startEdit() {
   isEditingName.value = true;
 }
 
-// 이름 수정 완료: Enter 또는 바깥 클릭 시 실행
 async function finishEdit() {
   isEditingName.value = false;
-  // 이름 수정 완료 시 db에 저장
   await axios.patch("http://localhost:3000/users/1", {
     nickname: user.value.name,
   });
 }
 
-// 이메일 수정 시작: 텍스트 클릭 시 실행
 function startEditEmail() {
   isEditingEmail.value = true;
 }
 
-// 이메일 수정 완료: Enter 또는 바깥 클릭 시 실행
 async function finishEditEmail() {
   isEditingEmail.value = false;
-  // 이메일 수정 완료 시 db에 저장
   await axios.patch("http://localhost:3000/users/1", {
     email: user.value.email,
   });
 }
 
+// onMounted는 한 번만!
 onMounted(async () => {
   const res = await axios.get("http://localhost:3000/users/1");
   user.value.name = res.data.nickname;
   user.value.email = res.data.email;
   user.value.avatar = res.data.profile_image_url;
-  balance.value = res.data.initial_balance;
+  initialBalance.value = res.data.initial_balance;
 });
 
-// 프로필 이미지 변경
-// FileReader로 선택한 이미지를 base64로 변환해서 user.avatar에 저장
 function onAvatarChange(event) {
   const file = event.target.files[0];
-  if (!file) return; // 파일 선택 안 했으면 종료
+  if (!file) return;
   const reader = new FileReader();
   reader.onload = (e) => {
-    user.value.avatar = e.target.result; // base64 이미지 저장
+    user.value.avatar = e.target.result;
   };
-  reader.readAsDataURL(file); // 파일을 base64로 변환 시작
+  reader.readAsDataURL(file);
 }
 </script>
 
