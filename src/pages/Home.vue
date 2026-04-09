@@ -155,13 +155,13 @@ import axios from 'axios';
 import db from '../../db.json';
 
 // 기본 상태 및 상수 설정
-const today = new Date();
-const currentYear = ref(today.getFullYear());
-const currentMonth = ref(today.getMonth());
-const selectedDate = ref(null);
-const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+const today = new Date(); // 오늘 날짜
+const currentYear = ref(today.getFullYear()); // 현재 달력에 표시되는 연도
+const currentMonth = ref(today.getMonth()); // 현재 달력에 표시되는 월
+const selectedDate = ref(null); // 사용자가 선택한 날짜 객체
+const weekDays = ['일', '월', '화', '수', '목', '금', '토']; // 요일
 
-// 데이터 소스 연결
+// 유저 정보 연결
 const userData = db.users[0];
 
 // 유틸리티 함수
@@ -181,6 +181,7 @@ const calendarDates = computed(() => {
   // 현재 보고 있는 달의 첫날과 마지막날 계산
   const firstDay = new Date(currentYear.value, currentMonth.value, 1);
   const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0);
+  // 이번 달 1일이 시작되는 요일 인덱스 (0: 일요일 1:월요일 ...)
   const startDayOfWeek = firstDay.getDay();
 
   // 이전 달 날짜 채우기
@@ -217,21 +218,24 @@ const calendarDates = computed(() => {
       day: i,
       dateString: dateStr,
       isCurrentMonth: true,
+      // 오늘 날짜 여부 체크
       isToday:
         currentYear.value === today.getFullYear() &&
         currentMonth.value === today.getMonth() &&
         i === today.getDate(),
-      transactions: dayTransactions,
-      totalIncome: income,
-      totalExpense: expense,
+      transactions: dayTransactions, // 이 날의 전체 내역
+      totalIncome: income, // 이 날의 수입 요약
+      totalExpense: expense, // 이 날의 지출 요약
     });
   }
   return dates;
 });
 
 // 달력 컨트롤 이전달 다음달
+// 월변경
 const changeMonth = (val) => {
   currentMonth.value += val;
+  // 연도 바뀜 처리 ( 12월과 1월 사이 )
   if (currentMonth.value > 11) {
     currentYear.value++;
     currentMonth.value = 0;
@@ -251,10 +255,13 @@ const showDetails = (date) => {
 };
 const balance = ref(0);
 
+// 컴포넌트 마운트 시 초기 잔고 데이터를 API에서 가져옴
 onMounted(async () => {
   const res = await axios.get('http://localhost:3000/users/1');
   balance.value = res.data.initial_balance;
 });
+
+// 현재 화면에 표시된 월의 총 수입 집계
 const totalMonthlyIncome = computed(() => {
   return db.transactions
     .filter((t) => {
@@ -268,7 +275,7 @@ const totalMonthlyIncome = computed(() => {
     .reduce((sum, t) => sum + t.amount, 0);
 });
 
-// 현재 달력에 표시된 월의 총 지출 합산
+// 현재 화면에 표시된 월의 총 지출 집계
 const totalMonthlyExpense = computed(() => {
   return db.transactions
     .filter((t) => {
@@ -297,7 +304,7 @@ onMounted(async () => {
 });
 
 /**
- * [수정된 부분] 실시간 잔고 계산
+ * 실시간 잔고 계산
  * initial_balance(시작 금액) + 모든 수입 - 모든 지출
  */
 const totalBalance = computed(() => {
@@ -306,8 +313,6 @@ const totalBalance = computed(() => {
   }, 0);
   return initialBalance.value + totalChange;
 });
-
-// ... 기존의 totalMonthlyIncome, totalMonthlyExpense 등은 그대로 유지 ...
 </script>
 
 <style scoped>
@@ -333,6 +338,7 @@ const totalBalance = computed(() => {
   z-index: 10;
 }
 
+/* 홈/달력 글자 */
 .logo {
   font-size: 1.4rem;
   font-weight: 900;
@@ -352,6 +358,7 @@ const totalBalance = computed(() => {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* 프로필 사진 */
 .profile-img {
   width: 28px;
   height: 28px;
@@ -359,7 +366,7 @@ const totalBalance = computed(() => {
   border: 2px solid #f8a70c;
 }
 
-/* 컨텐츠 영역 */
+/* 컨텐츠 영역 ( 헤더를 제외한 나머지 부분 ) */
 .content-wrapper {
   display: flex;
   flex: 1;
@@ -386,6 +393,7 @@ const totalBalance = computed(() => {
   margin-bottom: 16px;
 }
 
+/* 현재 월 */
 .current-month {
   font-size: 1.4rem;
   font-weight: 600;
@@ -393,6 +401,7 @@ const totalBalance = computed(() => {
   letter-spacing: -0.02em;
 }
 
+/* 현재 월 ( 달력 ) */
 .nav-btn {
   background: #2a2a2a;
   color: #e5e2e1;
@@ -408,6 +417,7 @@ const totalBalance = computed(() => {
   background: #353534;
 }
 
+/* 오늘 버튼 */
 .today-btn {
   margin-left: auto;
   padding: 6px 16px;
@@ -497,11 +507,12 @@ const totalBalance = computed(() => {
   font-weight: 600;
 }
 
+/* 이번 달이 아닌 날짜를 시각적으로 구분 */
 .not-current {
   opacity: 0.2;
 }
 
-/* 수입/지출 태그 */
+/* 수입 */
 .cell-income {
   font-size: 1rem;
   font-weight: 600;
@@ -512,6 +523,7 @@ const totalBalance = computed(() => {
   width: fit-content;
 }
 
+/* 지출 */
 .cell-expense {
   font-size: 16px;
   font-weight: 600;
@@ -532,20 +544,23 @@ const totalBalance = computed(() => {
   flex-direction: column;
 }
 
+/* 사이드바 상세 내역 글자 */
 .side-bar h3 {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #e5e2e1;
   margin-bottom: 24px;
 }
 
+/*  날짜 알려줌 */
 .detail-date {
   font-size: 0.875rem;
   font-weight: 600;
-  color: rgba(229, 226, 225, 0.6);
+  color: #e5e2e1;
   margin-bottom: 20px;
 }
 
+/* 특정 날짜 상세 내역 */
 .transaction-list {
   flex: 1;
   overflow-y: auto;
@@ -594,6 +609,7 @@ const totalBalance = computed(() => {
   color: #ffb4ab;
 }
 
+/* 사이드바 총 수입 */
 .detail-footer {
   margin-top: auto;
   padding: 20px;
@@ -604,6 +620,7 @@ const totalBalance = computed(() => {
   gap: 12px;
 }
 
+/* 사이드바 총 지출 */
 .footer-row {
   display: flex;
   justify-content: space-between;
@@ -613,16 +630,20 @@ const totalBalance = computed(() => {
 .footer-row span:first-child {
   color: #e5e2e1;
 }
+
+/* 사이드바 총 수입 금액 */
 .footer-row .income {
   color: #81c784;
   font-weight: 600;
 }
+
+/* 사이드바 총 지출 금액 */
 .footer-row .expense {
   color: #ffb4ab;
   font-weight: 600;
 }
 
-/* Floating Action Button */
+/* 오렌지 버튼 */
 .fab {
   position: fixed;
   bottom: 40px;
@@ -648,6 +669,7 @@ const totalBalance = computed(() => {
   background: #ffca82;
 }
 
+/* 특정 날짜 거래 X 시 문구 */
 .empty-msg {
   color: #e5e2e1;
   text-align: center;
@@ -655,6 +677,8 @@ const totalBalance = computed(() => {
   font-size: 1.4rem;
   line-height: 1.6;
 }
+
+/* 잔고창 */
 .mypage-balance {
   background-color: #2a2a2a;
   border-radius: 8px;
@@ -671,6 +695,8 @@ const totalBalance = computed(() => {
   height: 100%;
   flex: 1;
 }
+
+/* 수입, 지출, 잔고 담은 큰 바구니 */
 .summary-container {
   display: flex;
   gap: 8px;
