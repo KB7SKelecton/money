@@ -4,6 +4,7 @@
     <div class="list-panel">
     <!-- 상단: 탭만 (카테고리 / 월 / 일) -->
     <header class="page-head">
+      <h1 class="page-title">내역</h1>
       <nav class="list-tabs" role="tablist" aria-label="내역 보기 방식">
         <button
           type="button"
@@ -731,6 +732,13 @@ onMounted(() => {
   padding-bottom: 12px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(255, 188, 0, 0.08) 0%, transparent 100%);
+}
+
+.page-title {
+  margin: -20px 0 12px;
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 /* 탭 버튼 행 */
