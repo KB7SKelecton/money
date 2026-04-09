@@ -258,6 +258,15 @@ const changeMonth = (offset) => {
   font-family: 'Pretendard', sans-serif;
 }
 
+/* 기본 스타일 (데스크탑) */
+.container {
+  display: flex;
+  flex-direction: row; /* 가로 정렬 */
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
 .card {
   background-color: #121212;
   border-radius: 32px;
@@ -365,5 +374,67 @@ h3 {
   text-align: center;
   padding: 100px;
   font-size: 1.5rem;
+}
+
+/* Chart.vue <style scoped> 최하단에 추가 */
+/* 태블릿 및 작은 모니터 (1024px) */
+@media (max-width: 1024px) {
+  .bottom-grid {
+    grid-template-columns: 1fr; /* 2열에서 1열로 변경 (중요!) */
+    gap: 20px;
+  }
+
+  .card {
+    padding: 25px; /* 카드 내부 여백을 줄여 가독성 향상 */
+    border-radius: 20px;
+  }
+
+  .main-bar {
+    height: 300px; /* 차트 높이 최적화 */
+  }
+
+  .donut-box {
+    height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 1. 헤더 영역을 세로로 정렬 (제목과 네비게이션 버튼) */
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start; /* 왼쪽 정렬 (가운데 정렬 원하면 center) */
+    gap: 20px; /* 제목과 버튼 사이 간격 */
+  }
+
+  /* 2. 네비게이션 바 너비를 100%로 채우기 (선택 사항) */
+  .month-nav {
+    width: 100%;
+    justify-content: space-between; /* 화살표를 양 끝으로 */
+    box-sizing: border-box;
+  }
+
+  /* 기존 코드 유지 */
+  .bottom-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .chart-content {
+    height: 250px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 375px) {
+  .detail-list li {
+    padding: 14px 0; /* 리스트 간격 조절 */
+  }
+
+  .amount {
+    min-width: auto; /* 모바일에서 금액 너비 자동 조절 */
+  }
 }
 </style>
