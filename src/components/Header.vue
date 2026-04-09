@@ -24,16 +24,16 @@
 defineProps({
   userName: {
     type: String,
-    default: "김금융",
+    default: '김금융',
   },
   userProfileImg: {
     type: String,
-    default: "https://api.dicebear.com/7.x/thumbs/svg?seed=금융",
+    default: 'https://api.dicebear.com/7.x/thumbs/svg?seed=금융',
   },
 });
 
-const emit = defineEmits(["logout"]);
-const handleLogout = () => emit("logout");
+const emit = defineEmits(['logout']);
+const handleLogout = () => emit('logout');
 </script>
 
 <style scoped>

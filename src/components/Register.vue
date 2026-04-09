@@ -1,84 +1,90 @@
 <template>
-  <div class="register-container" :class="{ 'is-open': true }">
-    <div class="backdrop" @click="$emit('close')"></div>
-
-    <div class="register-modal">
-      <div class="register-header">
-        <h2>내역 추가</h2>
-        <button type="button" class="close-btn" @click="$emit('close')">
-          ✕
-        </button>
-      </div>
-
-      <div class="type-tab-group">
-        <input
-          type="radio"
-          id="typeExpense"
-          value="EXPENSE"
-          v-model="formData.type"
-          name="transactionType"
-        />
-        <label for="typeExpense">지출</label>
-
-        <input
-          type="radio"
-          id="typeIncome"
-          value="INCOME"
-          v-model="formData.type"
-          name="transactionType"
-        />
-        <label for="typeIncome">수입</label>
-      </div>
-
-      <form @submit.prevent="handleSave" id="registerFrm">
-        <div class="input-wrap">
-          <label>날짜</label>
-          <div class="input-field">
-            <input type="date" v-model="formData.date" />
-          </div>
-        </div>
-
-        <div class="input-wrap">
-          <label>금액</label>
-          <div class="amount-field">
-            <span class="currency">₩</span>
-            <input
-              type="text"
-              v-model.number="formData.amount"
-              placeholder="0"
-            />
-          </div>
-        </div>
-
-        <div class="input-wrap">
-          <label>카테고리</label>
-          <div class="input-field">
-            <select v-model.number="formData.categoryId" required>
-              <option value="" disabled>선택하세요</option>
-              <option v-for="cat in categories" :key="cat.id" :value="cat.id">
-                {{ cat.name }}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="input-wrap">
-          <label>내용</label>
-          <textarea
-            v-model="formData.memo"
-            placeholder="메모를 입력하세요..."
-          ></textarea>
-        </div>
-
-        <button type="submit" class="submit-btn">저장</button>
-      </form>
+  <button
+    @click="isModalOpen = true"
+    class="fab-button"
+    v-if="
+      route.path !== '/mypage' &&
+      route.path !== '/login' &&
+      route.path !== '/register'
+    "
+  >
+    <i class="fas fa-plus"></i>
+  </button>
+  <div class="register-modal" :class="{ 'is-open': isModalOpen }">
+    <div class="register-header">
+      <h2>내역 추가</h2>
+      <button type="button" class="close-btn" @click="isModalOpen = false">
+        ✕
+      </button>
     </div>
+
+    <div class="type-tab-group">
+      <input
+        type="radio"
+        id="typeExpense"
+        value="EXPENSE"
+        v-model="formData.type"
+        name="transactionType"
+      />
+      <label for="typeExpense">지출</label>
+
+      <input
+        type="radio"
+        id="typeIncome"
+        value="INCOME"
+        v-model="formData.type"
+        name="transactionType"
+      />
+      <label for="typeIncome">수입</label>
+    </div>
+
+    <form @submit.prevent="handleSave" id="registerFrm">
+      <div class="input-wrap">
+        <label>날짜</label>
+        <div class="input-field">
+          <input type="date" v-model="formData.date" />
+        </div>
+      </div>
+
+      <div class="input-wrap">
+        <label>금액</label>
+        <div class="amount-field">
+          <span class="currency">₩</span>
+          <input type="text" v-model.number="formData.amount" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="input-wrap">
+        <label>카테고리</label>
+        <div class="input-field">
+          <select v-model.number="formData.categoryId" required>
+            <option value="" disabled>선택하세요</option>
+            <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+              {{ cat.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-wrap">
+        <label>내용</label>
+        <textarea
+          v-model="formData.memo"
+          placeholder="메모를 입력하세요..."
+        ></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">저장</button>
+    </form>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const props = defineProps({ isOpen: Boolean });
 const emit = defineEmits(['close', 'refresh']);
@@ -86,6 +92,8 @@ const emit = defineEmits(['close', 'refresh']);
 const categories = ref([]);
 
 const FIXED_USER_ID = 1;
+
+const isModalOpen = ref(false);
 
 // 입력된 폼 데이터
 const formData = reactive({
@@ -139,129 +147,166 @@ const handleSave = async () => {
 </script>
 
 <style scoped>
-/* 전체 컨테이너 및 배경 */
-.register-container {
+/* 1. 플로팅 버튼 (FAB) - 입체감 및 네온 효과 */
+.fab-button {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #f8a70c, #fab809);
+  border-radius: 50%;
+  border: none;
+  color: #000;
+  font-size: 26px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow:
+    0 8px 24px rgba(248, 167, 12, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 9999;
+}
+
+.fab-button:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 12px 32px rgba(248, 167, 12, 0.6);
+}
+
+/* 2. 모달 컨테이너 - 글래스모피즘 효과 */
+.register-modal {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  visibility: hidden;
-  z-index: 1000;
-}
-.register-container.is-open {
-  visibility: visible;
-}
-
-.backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
+  right: -100%;
   width: 100%;
+  max-width: 480px;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.is-open .backdrop {
-  opacity: 1;
-}
-
-/* 우측 슬라이드 모달 메인 */
-.register-modal {
-  position: absolute;
-  top: 0;
-  right: -100%; /* 화면 밖 */
-  width: 100%;
-  max-width: 450px;
-  height: 100%;
-  background: #1a1a1a;
+  background: rgba(22, 22, 22, 0.96);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(110, 96, 83, 0.4);
   color: #fff;
-  padding: 40px 24px;
-  box-sizing: border-box;
-  transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding: 50px 30px;
+  transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-}
-.is-open .register-modal {
-  right: 0;
+  z-index: 10000;
+  overflow-y: auto;
 }
 
-/* 헤더 */
+.register-modal.is-open {
+  right: 0;
+  box-shadow: -25px 0 50px rgba(0, 0, 0, 0.9);
+}
+
 .register-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-}
-.register-header h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0;
-}
-.close-btn {
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 24px;
-  cursor: pointer;
+  justify-content: space-between;
+  margin-bottom: 35px;
 }
 
-/* 탭 스타일 */
+.register-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f8a70c;
+  letter-spacing: -0.5px;
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.05); /* 미세한 배경색으로 클릭 영역 확보 */
+  border: none;
+  color: #6e6053; /* 기본 상태는 웜 그레이 */
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* 마우스 올렸을 때 효과 */
+.close-btn:hover {
+  background: rgba(248, 167, 12, 0.1); /* 골드 톤 배경색 */
+  color: #fab809; /* 앰버 컬러로 하이라이트 */
+  transform: rotate(90deg); /* 살짝 회전 애니메이션 */
+}
+
+/* 클릭했을 때 효과 */
+.close-btn:active {
+  transform: scale(0.9) rotate(90deg);
+}
+
+/* 3. 수입/지출 탭 - 세련된 알약 형태 */
 .type-tab-group {
   display: flex;
   background: #2a2a2a;
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 30px;
+  border: 1px solid #3a3a3a;
+  border-radius: 14px;
+  padding: 5px;
+  margin-bottom: 35px;
 }
 
-/* 실제 라디오 인풋은 숨김 */
+.type-tab-group label {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  color: #6e6053;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
 .type-tab-group input[type='radio'] {
   display: none;
 }
 
-/* 라벨을 버튼처럼 스타일링 */
-.type-tab-group label {
-  flex: 1;
-  padding: 10px;
-  text-align: center;
-  border-radius: 6px;
-  color: #888;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
-}
-
-/* 라디오가 체크되었을 때 인접한 라벨(label)의 스타일 변경 */
 .type-tab-group input[type='radio']:checked + label {
-  background: #3a3a3a;
-  color: #ffb347; /* 선택된 포인트 컬러 */
+  background: #f8a70c;
+  color: #000;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(248, 167, 12, 0.3);
 }
 
-/* 입력 필드 공통 */
+/* 4. 입력 폼 레이아웃 */
 .input-wrap {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
+
 .input-wrap label {
   display: block;
   font-size: 13px;
-  color: #888;
-  margin-bottom: 8px;
+  color: #6e6053;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .input-field,
 textarea,
 .amount-field {
-  background: #2a2a2a;
-  border-radius: 12px;
-  padding: 12px 16px;
-  border: 1px solid transparent;
-  transition: 0.2s;
+  background: #1e1e1e;
+  border: 1.5px solid #333;
+  border-radius: 16px;
+  padding: 16px 20px;
+  transition: all 0.3s ease;
 }
+
 .input-field:focus-within,
 textarea:focus {
-  border-color: #f8a70c;
+  border-color: #fab809;
+  background: #252525;
+  box-shadow: 0 0 0 4px rgba(250, 184, 9, 0.1);
+}
+
+select option {
+  background: rgba(22, 22, 22, 0.96);
 }
 
 input,
@@ -275,36 +320,52 @@ textarea {
   outline: none;
 }
 
-/* 금액 필드 특화 */
+/* 5. 금액 필드 시각적 강조 */
 .amount-field {
   display: flex;
   align-items: center;
-  padding: 16px;
-}
-.currency {
-  font-size: 24px;
-  margin-right: 12px;
-  color: #888;
-}
-.amount-field input {
-  font-size: 32px;
-  font-weight: bold;
+  padding: 24px 20px;
+  border-color: rgba(110, 96, 83, 0.3);
 }
 
-/* 하단 저장 버튼 */
+.currency {
+  color: #fab809;
+  font-size: 26px;
+  font-weight: 900;
+  margin-right: 14px;
+}
+
+.amount-field input {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: 800;
+}
+
+/* 6. 하단 저장 버튼 */
 .submit-btn {
   margin-top: auto;
-  width: 100%;
-  padding: 18px;
+  padding: 22px;
   background: linear-gradient(90deg, #f8a70c, #fab809);
   border: none;
-  border-radius: 16px;
+  border-radius: 20px;
   color: #000;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
+  box-shadow: 0 10px 20px rgba(248, 167, 12, 0.2);
+  transition: all 0.3s ease;
+  width: 100%;
 }
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(250, 184, 9, 0.4);
+  filter: brightness(1.1);
+}
+
 .submit-btn:active {
-  transform: scale(0.98);
+  transform: translateY(1px) scale(0.98);
 }
 </style>
