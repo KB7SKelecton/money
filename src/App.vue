@@ -15,33 +15,34 @@
 </template>
 
 <script>
-import { useRoute, useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
-import axios from "axios";
-import Header from "@/components/Header.vue";
-import Nav from "@/components/Nav.vue";
+import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import Header from '@/components/Header.vue';
+import Nav from '@/components/Nav.vue';
+import Register from './components/Register.vue';
 
 export default {
-  name: "App",
-  components: { Header, Nav },
+  name: 'App',
+  components: { Header, Nav, Register },
   setup() {
     const route = useRoute();
     const router = useRouter();
 
-    const userName = ref("");
-    const userProfileImg = ref("");
+    const userName = ref('');
+    const userProfileImg = ref('');
 
     onMounted(async () => {
-      const res = await axios.get("http://localhost:3000/users/1");
+      const res = await axios.get('http://localhost:3000/users/1');
       userName.value = res.data.nickname;
       userProfileImg.value = res.data.profile_image_url;
     });
     const handleLogout = () => {
-      localStorage.removeItem("user");
-      router.push("/login");
+      localStorage.removeItem('user');
+      router.push('/login');
     };
     const handleAddClick = () => {
-      alert("내역 추가 창을 띄울 예정입니다!");
+      alert('내역 추가 창을 띄울 예정입니다!');
     };
 
     return {
