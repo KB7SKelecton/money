@@ -108,6 +108,7 @@ function onAvatarChange(event) {
 .mypage-main {
   flex: 1;
   padding: 48px 40px;
+  width: 100%;
 }
 
 /* 마이페이지 헤더 박스 */

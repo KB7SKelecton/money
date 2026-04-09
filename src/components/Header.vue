@@ -51,7 +51,7 @@ const handleLogout = () => emit("logout");
 <style scoped>
 /* ── PC 기본 스타일 ── */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
