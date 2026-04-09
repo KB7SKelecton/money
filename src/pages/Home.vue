@@ -101,7 +101,7 @@
         <div v-if="selectedDate" class="detail-content">
           <p class="detail-date">{{ selectedDate.dateString }}</p>
 
-          <!-- 특정 날짜 상네 내역 등장 -->
+          <!-- 특정 날짜 상세 내역 등장 -->
           <div class="transaction-list">
             <div
               v-for="t in selectedDate.transactions"
@@ -117,6 +117,7 @@
                 }}{{ t.amount.toLocaleString() }}
               </div>
             </div>
+            <!-- 특정 날짜 거래 X 시 문구 등장 -->
             <div
               v-if="selectedDate.transactions.length === 0"
               class="empty-msg"
@@ -125,6 +126,7 @@
             </div>
           </div>
 
+          <!-- 맨 밑 박스 총수입 총지출 표기 -->
           <div class="detail-footer" v-if="selectedDate.transactions.length">
             <div class="footer-row">
               <span>총 수입</span
@@ -140,6 +142,7 @@
             </div>
           </div>
         </div>
+        <!-- 첫 화면엔 날짜 선택하라함 -->
         <div v-else class="empty-msg">날짜를 선택해 주세요.</div>
       </aside>
     </div>
@@ -608,7 +611,7 @@ const totalBalance = computed(() => {
 }
 
 .footer-row span:first-child {
-  color: rgba(229, 226, 225, 0.5);
+  color: #e5e2e1;
 }
 .footer-row .income {
   color: #81c784;
