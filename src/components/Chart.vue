@@ -163,7 +163,7 @@ const barOptions = {
     },
   },
 
-  barPercentage: 0.9,
+  barPercentage: 0.7,
   categoryPercentage: 0.7,
 };
 
