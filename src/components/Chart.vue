@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import axios from 'axios';
-import { Bar, Doughnut } from 'vue-chartjs';
+import { ref, onMounted, computed } from "vue";
+import axios from "axios";
+import { Bar, Doughnut } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
@@ -11,7 +11,7 @@ import {
   CategoryScale,
   LinearScale,
   ArcElement,
-} from 'chart.js';
+} from "chart.js";
 
 ChartJS.register(
   Title,
@@ -27,15 +27,15 @@ const isLoaded = ref(false);
 const rawData = ref({ transactions: [], categories: [] });
 const currentDate = ref(new Date(2026, 3, 8));
 
-const colors = ['#f8a70c', '#fab809', '#6e6053', '#8b7e74', '#4a443f'];
+const colors = ["#f8a70c", "#fab809", "#6e6053", "#8b7e74", "#4a443f"];
 
 const fetchData = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/db');
+    const response = await axios.get("http://localhost:3000/db");
     rawData.value = response.data;
     isLoaded.value = true;
   } catch (error) {
-    console.error('데이터 로드 실패:', error);
+    console.error("데이터 로드 실패:", error);
   }
 };
 
@@ -48,15 +48,15 @@ const dashboardData = computed(() => {
   const monthlyMap = {};
   for (let i = 3; i >= 0; i--) {
     const d = new Date(year, month - i, 1);
-    const key = `${String(d.getMonth() + 1).padStart(2, '0')}월`;
+    const key = `${String(d.getMonth() + 1).padStart(2, "0")}월`;
     monthlyMap[key] = { income: 0, expense: 0 };
   }
 
   rawData.value.transactions.forEach((t) => {
     const d = new Date(t.transaction_date);
-    const key = `${String(d.getMonth() + 1).padStart(2, '0')}월`;
+    const key = `${String(d.getMonth() + 1).padStart(2, "0")}월`;
     if (monthlyMap[key]) {
-      if (t.type === 'INCOME') monthlyMap[key].income += t.amount;
+      if (t.type === "INCOME") monthlyMap[key].income += t.amount;
       else monthlyMap[key].expense += t.amount;
     }
   });
@@ -66,15 +66,15 @@ const dashboardData = computed(() => {
     labels: barLabels,
     datasets: [
       {
-        label: '수입',
-        backgroundColor: '#f8a70c',
+        label: "수입",
+        backgroundColor: "#f8a70c",
         data: barLabels.map((m) => monthlyMap[m].income),
         borderRadius: 8,
         barThickness: 45,
       },
       {
-        label: '지출',
-        backgroundColor: '#6e6053',
+        label: "지출",
+        backgroundColor: "#6e6053",
         data: barLabels.map((m) => monthlyMap[m].expense),
         borderRadius: 8,
         barThickness: 45,
@@ -85,7 +85,7 @@ const dashboardData = computed(() => {
   const currentTransactions = rawData.value.transactions.filter((t) => {
     const d = new Date(t.transaction_date);
     return (
-      d.getFullYear() === year && d.getMonth() === month && t.type === 'EXPENSE'
+      d.getFullYear() === year && d.getMonth() === month && t.type === "EXPENSE"
     );
   });
 
@@ -117,7 +117,7 @@ const dashboardData = computed(() => {
       {
         data: sortedList.map((i) => i.amount),
         backgroundColor: sortedList.map((i) => i.color),
-        cutout: '80%',
+        cutout: "80%",
         borderWidth: 0,
       },
     ],
@@ -132,39 +132,39 @@ const barOptions = {
   plugins: {
     legend: {
       display: true,
-      align: 'end',
+      align: "end",
       labels: {
-        color: '#ffffff',
+        color: "#ffffff",
         usePointStyle: true,
         boxWidth: 8,
-        font: { size: 10, weight: '400' },
+        font: { size: 10, weight: "400" },
       },
     },
   },
   scales: {
     x: {
       grid: { display: false },
-      ticks: { color: '#bbbbbb', font: { size: 14, weight: '600' } },
+      ticks: { color: "#bbbbbb", font: { size: 14, weight: "600" } },
     },
     y: { display: false },
   },
 };
 
 const centerTextPlugin = {
-  id: 'centerText',
+  id: "centerText",
   beforeDraw: (chart) => {
     const {
       ctx,
       chartArea: { top, width, height },
     } = chart;
     ctx.save();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#aaaaaa';
-    ctx.font = '600 1.2rem sans-serif';
-    ctx.fillText('총 지출액', width / 2, top + height / 2 - 25);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 2.2rem sans-serif'; // 금액 폰트 대폭 확대
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#aaaaaa";
+    ctx.font = "600 1.2rem sans-serif";
+    ctx.fillText("총 지출액", width / 2, top + height / 2 - 25);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 2.2rem sans-serif"; // 금액 폰트 대폭 확대
     ctx.fillText(
       `${dashboardData.value.total.toLocaleString()}원`,
       width / 2,
@@ -193,7 +193,7 @@ const changeMonth = (offset) => {
           <button @click="changeMonth(-1)" class="nav-btn">◀</button>
           <span class="nav-date"
             >{{ currentDate.getFullYear() }}년
-            {{ String(currentDate.getMonth() + 1).padStart(2, '0') }}월</span
+            {{ String(currentDate.getMonth() + 1).padStart(2, "0") }}월</span
           >
           <button @click="changeMonth(1)" class="nav-btn">▶</button>
         </div>
@@ -210,7 +210,7 @@ const changeMonth = (offset) => {
             <h3>카테고리별 지출</h3>
             <p class="highlight">
               {{ currentDate.getFullYear() }}년
-              {{ String(currentDate.getMonth() + 1).padStart(2, '0') }}월 기준
+              {{ String(currentDate.getMonth() + 1).padStart(2, "0") }}월 기준
             </p>
           </div>
         </div>
@@ -256,7 +256,7 @@ const changeMonth = (offset) => {
   color: #fff;
   padding: 2px 0px;
   margin: 10px 0px;
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
 }
 
 /* 기본 스타일 (데스크탑) */
@@ -285,21 +285,25 @@ const changeMonth = (offset) => {
 
 /* 텍스트 크기 강화 */
 h3 {
-  font-size: 0.8rem;
+  font-size: 1.05rem;
   margin: 0;
-  font-weight: 500;
+  font-weight: 700;
   color: #fff;
+  letter-spacing: -0.02em;
 }
 .subtitle {
   color: #888;
   font-size: 0.7rem;
-  margin-top: 3px;
+  margin-top: 4px;
+  font-weight: 500;
 }
 .highlight {
-  color: #f8a70c;
-  font-size: 0.8rem;
-  font-weight: 300;
-  margin-top: 8px;
+  color: #888;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
 }
 
 /* 네비게이션 가독성 */
@@ -322,7 +326,7 @@ h3 {
 }
 .nav-date {
   font-weight: 500;
-  font-size: 0.7rem;
+  font-size: 0.88rem;
   color: #fff;
 }
 

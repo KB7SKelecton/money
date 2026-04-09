@@ -106,7 +106,7 @@ function onAvatarChange(event) {
 /* 왼쪽 메인 영역: 나머지 공간 전부 차지 */
 .mypage-main {
   flex: 1;
-  padding: 48px 40px;
+  padding: 40px 20px;
   width: 100%;
 }
 
@@ -119,11 +119,10 @@ function onAvatarChange(event) {
 /* 마이페이지 제목 */
 .mypage-title {
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 600;
   color: #e5e2e1;
-  margin: 0 0 20px 0;
-  letter-spacing: -0.03em;
   line-height: 1;
+  margin: -20px 0 12px;
 }
 
 /* 잔고 표시 박스 */
@@ -135,6 +134,7 @@ function onAvatarChange(event) {
   align-items: flex-start;
   gap: 1px;
   flex-direction: column; /* 세로로 쌓기 */
+  margin-top: 7px;
 }
 
 /* AVAILABLE ASSETS 라벨 */
@@ -368,8 +368,10 @@ function onAvatarChange(event) {
   }
 
   .mypage-title {
-    font-size: 1.8rem; /* 제목 크기를 살짝 조절 */
+    font-size: 1.5rem; /* 제목 크기를 살짝 조절 */
     margin-bottom: 15px;
+    font-weight: 600;
+    margin: -20px 0 12px;
   }
 
   .mypage-balance {
@@ -393,6 +395,7 @@ function onAvatarChange(event) {
     font-size: 1.4rem; /* 모바일: 제목 중앙 정렬 */
     margin-left: 10px;
     margin-top: -10px;
+    margin: -20px 0 12px;
   }
 
   .mypage-balance {
