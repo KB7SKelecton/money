@@ -15,15 +15,15 @@ const router = createRouter({
   ],
 });
 
-/* router.beforeEach((to, from, next) => {
+/* router.beforeEach((to, from) => {
   const loggedInUser = localStorage.getItem('user');
   const isLoginPage = to.path === '/login';
 
   if (!isLoginPage && !loggedInUser) {
-    alert("로그인이 필요한 서비스입니다.");
-    return "/login";
+    alert('로그인이 필요한 서비스입니다.');
+    return '/login';
   } else if (isLoginPage && loggedInUser) {
-    return "/";
+    return '/';
   } else {
     return true;
   }

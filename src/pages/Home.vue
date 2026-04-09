@@ -311,12 +311,12 @@ const totalBalance = computed(() => {
 
 /* 헤더: 투명도와 보더 라인 조정 */
 .header-bar {
-  height: 64px;
+  height: 4rem;
   background: #131313;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 10;
 }
@@ -374,7 +374,7 @@ const totalBalance = computed(() => {
 }
 
 .current-month {
-  font-size: 1.75rem;
+  font-size: 1.2rem;
   font-weight: 800;
   color: #e5e2e1;
   letter-spacing: -0.02em;
@@ -432,7 +432,7 @@ const totalBalance = computed(() => {
 .day-label {
   padding: 16px 0;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 800;
   background: #1c1b1b;
   color: rgba(229, 226, 225, 0.5);
@@ -490,7 +490,7 @@ const totalBalance = computed(() => {
 
 /* 수입/지출 태그 */
 .cell-income {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: #81c784; /* 부드러운 초록 */
   background: rgba(129, 199, 132, 0.1);
@@ -670,7 +670,7 @@ const totalBalance = computed(() => {
 }
 
 .balance-label {
-  font-size: 0.7rem;
+  font-size: 1.5rem;
   color: #f8a70c;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -708,7 +708,7 @@ const totalBalance = computed(() => {
 }
 
 .balance-label {
-  font-size: 0.7rem;
+  font-size: 1.2rem;
   color: #f8a70c; /* 기본 노란색 */
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -735,11 +735,11 @@ const totalBalance = computed(() => {
 /* 지출 강조 (노란색/주황색) */
 .expense-box .balance-label {
   color: #ffee03;
-  font-size: 10px;
+  font-size: 0.6rem;
 }
 .expense-box .balance-amount {
   color: #ffee03;
-  font-size: 10px;
+  font-size: 0.6rem;
 }
 
 /* 통합창 강조 (이미지처럼 배경색 반전 효과 가능) */
@@ -748,11 +748,11 @@ const totalBalance = computed(() => {
 }
 .total-box .balance-label {
   color: #1a1c1e;
-  font-size: 10px;
+  font-size: 0.6rem;
 }
 .total-box .balance-amount {
   color: #1a1c1e;
-  font-size: 10px;
+  font-size: 0.6rem;
 }
 
 /* 반응형 웹 767px 기준 */
@@ -799,7 +799,7 @@ const totalBalance = computed(() => {
   /* 5. 금액 폰트 미세 조정 */
   .cell-income,
   .cell-expense {
-    font-size: 6px;
+    font-size: 0.35rem;
     letter-spacing: -0.5px;
   }
 }
