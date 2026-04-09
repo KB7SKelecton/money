@@ -106,7 +106,7 @@ function onAvatarChange(event) {
 /* 왼쪽 메인 영역: 나머지 공간 전부 차지 */
 .mypage-main {
   flex: 1;
-  padding: 40px 20px;
+  padding: 28px 20px;
   width: 100%;
 }
 
@@ -120,9 +120,11 @@ function onAvatarChange(event) {
 .mypage-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #e5e2e1;
+  color: #ffffff;
   line-height: 1;
-  margin: -20px 0 12px;
+  margin: 0 0 12px 0; /* 깔끔하게 */
+  padding: 0; /* 기존 padding 제거 */
+  letter-spacing: -0.05em; /* 홈 기준 맞춤 */
 }
 
 /* 잔고 표시 박스 */
@@ -371,7 +373,7 @@ function onAvatarChange(event) {
     font-size: 1.5rem; /* 제목 크기를 살짝 조절 */
     margin-bottom: 15px;
     font-weight: 600;
-    margin: -20px 0 12px;
+    margin: 0 0 12px 0; /* 마이너스 마진 제거 */
   }
 
   .mypage-balance {
@@ -381,21 +383,19 @@ function onAvatarChange(event) {
 
 @media (max-width: 768px) {
   .mypage-main {
-    padding: 32px 24px; /* 태블릿: 좌우 여백 축소 */
+    padding: 20px 22px; /* 태블릿: 좌우 여백 축소 */
   }
 }
 
 @media (max-width: 375px) {
   .mypage-main {
-    padding: 24px 16px; /* 모바일: 최소 여백 */
+    padding: 20px 22px; /* 모바일: 최소 여백 */
   }
 
   .mypage-title {
-    text-align: start;
     font-size: 1.4rem; /* 모바일: 제목 중앙 정렬 */
-    margin-left: 10px;
-    margin-top: -10px;
-    margin: -20px 0 12px;
+    margin: 0 0 12px 0;
+    font-weight: 600;
   }
 
   .mypage-balance {
