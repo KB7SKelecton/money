@@ -258,6 +258,15 @@ const changeMonth = (offset) => {
   font-family: 'Pretendard', sans-serif;
 }
 
+/* 기본 스타일 (데스크탑) */
+.container {
+  display: flex;
+  flex-direction: row; /* 가로 정렬 */
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
 .card {
   background-color: #121212;
   border-radius: 32px;
@@ -390,17 +399,32 @@ h3 {
 }
 
 @media (max-width: 768px) {
+  /* 1. 헤더 영역을 세로로 정렬 (제목과 네비게이션 버튼) */
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start; /* 왼쪽 정렬 (가운데 정렬 원하면 center) */
+    gap: 20px; /* 제목과 버튼 사이 간격 */
+  }
+
+  /* 2. 네비게이션 바 너비를 100%로 채우기 (선택 사항) */
+  .month-nav {
+    width: 100%;
+    justify-content: space-between; /* 화살표를 양 끝으로 */
+    box-sizing: border-box;
+  }
+
+  /* 기존 코드 유지 */
   .bottom-grid {
-    grid-template-columns: 1fr; /* 도넛과 리스트를 세로로 배치 */
+    grid-template-columns: 1fr;
     gap: 20px;
   }
 
   .chart-content {
-    height: 250px; /* 화면이 작아지면 차트 높이도 약간 축소 */
+    height: 250px;
   }
 
   .card {
-    padding: 20px; /* 카드 내부 여백 조절 */
+    padding: 20px;
   }
 }
 
