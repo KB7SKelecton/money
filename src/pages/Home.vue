@@ -324,8 +324,8 @@ const totalBalance = computed(() => {
 .logo {
   font-size: 1.25rem;
   font-weight: 900;
-  color: #f8a70c;
-  font-style: italic;
+  color: #e5e2e1;
+  /* font-style: italic; */
   letter-spacing: -0.05em;
 }
 
@@ -370,11 +370,12 @@ const totalBalance = computed(() => {
   justify-content: flex-start; /* 왼쪽 정렬로 변경하여 세련미 강조 */
   align-items: center;
   gap: 8px;
+  margin-top: 16px;
   margin-bottom: 16px;
 }
 
 .current-month {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #e5e2e1;
   letter-spacing: -0.02em;
@@ -399,9 +400,9 @@ const totalBalance = computed(() => {
   margin-left: auto;
   padding: 6px 16px;
   background: #2a2a2a;
-  color: #d7c3ad;
+  color: #e5e2e1;
   border-radius: 8px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -432,10 +433,10 @@ const totalBalance = computed(() => {
 .day-label {
   padding: 16px 0;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 800;
   background: #1c1b1b;
-  color: rgba(229, 226, 225, 0.5);
+  color: #e5e2e1;
 }
 
 .day-label:first-child {
@@ -470,7 +471,7 @@ const totalBalance = computed(() => {
 
 /* 날짜 숫자 */
 .date-num {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: #f8a70c;
 }
@@ -522,7 +523,7 @@ const totalBalance = computed(() => {
 .side-bar h3 {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #f8a70c;
+  color: #e5e2e1;
   margin-bottom: 24px;
 }
 
@@ -670,7 +671,7 @@ const totalBalance = computed(() => {
 }
 
 .balance-label {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #f8a70c;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -678,7 +679,7 @@ const totalBalance = computed(() => {
 }
 
 .balance-amount {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #e5e2e1;
   white-space: nowrap; /* 줄바꿈 금지 */
@@ -708,7 +709,7 @@ const totalBalance = computed(() => {
 }
 
 .balance-label {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   color: #f8a70c; /* 기본 노란색 */
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -724,22 +725,22 @@ const totalBalance = computed(() => {
 
 /* 수입 강조 (초록빛/파란빛) */
 .income-box .balance-label {
-  color: #84d4ff;
-  font-size: 10px;
+  color: #81c784;
+  font-size: 1rem;
 }
 .income-box .balance-amount {
-  color: #84d4ff;
-  font-size: 10px;
+  color: #81c784;
+  font-size: 1rem;
 }
 
 /* 지출 강조 (노란색/주황색) */
 .expense-box .balance-label {
-  color: #ffee03;
-  font-size: 0.6rem;
+  color: #ffb4ab;
+  font-size: 1rem;
 }
 .expense-box .balance-amount {
-  color: #ffee03;
-  font-size: 0.6rem;
+  color: #ffb4ab;
+  font-size: 1rem;
 }
 
 /* 통합창 강조 (이미지처럼 배경색 반전 효과 가능) */
@@ -748,11 +749,11 @@ const totalBalance = computed(() => {
 }
 .total-box .balance-label {
   color: #1a1c1e;
-  font-size: 0.6rem;
+  font-size: 1rem;
 }
 .total-box .balance-amount {
   color: #1a1c1e;
-  font-size: 0.6rem;
+  font-size: 1rem;
 }
 
 /* 반응형 웹 767px 기준 */
@@ -786,6 +787,12 @@ const totalBalance = computed(() => {
     width: 100%;
   }
 
+  .date-num {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #f8a70c;
+  }
+
   .date-cell {
     min-height: 70px; /* 세로로 길어지므로 셀 높이를 적당히 줄임 */
   }
@@ -793,7 +800,7 @@ const totalBalance = computed(() => {
   /* 5. 요일(일~토) 라벨 크기 축소 */
   .day-label {
     padding: 10px 0;
-    font-size: 0.75rem; /* 글자 크기를 줄여서 칸이 안 깨지게 함 */
+    font-size: 0.8rem; /* 글자 크기를 줄여서 칸이 안 깨지게 함 */
   }
 
   /* 5. 금액 폰트 미세 조정 */
@@ -801,6 +808,30 @@ const totalBalance = computed(() => {
   .cell-expense {
     font-size: 0.35rem;
     letter-spacing: -0.5px;
+  }
+  .income-box .balance-label {
+    color: #81c784;
+    font-size: 0.8rem;
+  }
+  .income-box .balance-amount {
+    color: #81c784;
+    font-size: 0.8rem;
+  }
+  .expense-box .balance-label {
+    color: #ffb4ab;
+    font-size: 0.8rem;
+  }
+  .expense-box .balance-amount {
+    color: #ffb4ab;
+    font-size: 0.8rem;
+  }
+  .total-box .balance-label {
+    color: #1a1c1e;
+    font-size: 0.8rem;
+  }
+  .total-box .balance-amount {
+    color: #1a1c1e;
+    font-size: 0.8rem;
   }
 }
 </style>
