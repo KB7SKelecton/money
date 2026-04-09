@@ -55,19 +55,27 @@ export default {
 
 <style>
 .app-layout {
-  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 .main-content {
   background-color: #131313;
-  width: calc(100% - 260px);
-  float: right;
+  flex: 1;
+  min-width: 0;
 }
 
 @media (max-width: 767px) {
+  .app-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
   .main-content {
     width: 100%;
-    float: none;
+    flex: none;
     padding-bottom: 96px;
+    min-height: calc(100vh - 64px);
   }
 }
 </style>

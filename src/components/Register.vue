@@ -39,7 +39,7 @@
       <div class="input-wrap">
         <label>날짜</label>
         <div class="input-field">
-          <input type="date" v-model="formData.date" />
+          <input type="date" v-model="formData.date" requireds />
         </div>
       </div>
 
@@ -47,7 +47,14 @@
         <label>금액</label>
         <div class="amount-field">
           <span class="currency">₩</span>
-          <input type="text" v-model.number="formData.amount" placeholder="0" />
+          <input
+            type="text"
+            :value="formData.amount ? formData.amount.toLocaleString() : ''"
+            @input="handleAmountInput"
+            placeholder="0"
+            inputmode="numeric"
+            required
+          />
         </div>
       </div>
 
@@ -68,6 +75,7 @@
         <textarea
           v-model="formData.memo"
           placeholder="메모를 입력하세요..."
+          required
         ></textarea>
       </div>
 
@@ -77,7 +85,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 
@@ -110,8 +118,20 @@ const fetchCategories = async () => {
     console.error('카테고리 로딩 실패:', error);
   }
 };
-
 fetchCategories();
+
+const handleAmountInput = (e) => {
+  // 1. 입력된 값에서 숫자만 추출
+  const value = e.target.value;
+  const numericValue = value.replace(/[^0-9]/g, '');
+
+  // 2. 실제 데이터 업데이트 (숫자형으로)
+  formData.amount = numericValue ? parseInt(numericValue, 10) : 0;
+
+  // 3. ⚠️ 핵심: input 엘리먼트의 값을 강제로 업데이트 (텍스트 입력 원천 차단)
+  // 이 과정을 통해 숫자가 아닌 문자가 들어오자마자 눈앞에서 사라지게 됩니다.
+  e.target.value = formData.amount ? formData.amount.toLocaleString() : '';
+};
 
 // 가계부 입력 데이터 db.json에 추가
 const handleSave = async () => {
@@ -144,7 +164,6 @@ const handleSave = async () => {
 </script>
 
 <style scoped>
-/* 1. 플로팅 버튼 (FAB) - 입체감 및 네온 효과 */
 .fab-button {
   position: fixed;
   right: 40px;
@@ -176,7 +195,6 @@ const handleSave = async () => {
   display: none;
 }
 
-/* 2. 모달 컨테이너 - 글래스모피즘 효과 */
 .register-modal {
   position: fixed;
   top: 0;
@@ -216,9 +234,9 @@ const handleSave = async () => {
 }
 
 .close-btn {
-  background: rgba(255, 255, 255, 0.05); /* 미세한 배경색으로 클릭 영역 확보 */
+  background: rgba(255, 255, 255, 0.05);
   border: none;
-  color: #6e6053; /* 기본 상태는 웜 그레이 */
+  color: #6e6053;
   font-size: 20px;
   width: 36px;
   height: 36px;
@@ -230,19 +248,16 @@ const handleSave = async () => {
   transition: all 0.2s ease;
 }
 
-/* 마우스 올렸을 때 효과 */
 .close-btn:hover {
-  background: rgba(248, 167, 12, 0.1); /* 골드 톤 배경색 */
-  color: #fab809; /* 앰버 컬러로 하이라이트 */
-  transform: rotate(90deg); /* 살짝 회전 애니메이션 */
+  background: rgba(248, 167, 12, 0.1);
+  color: #fab809;
+  transform: rotate(90deg);
 }
 
-/* 클릭했을 때 효과 */
 .close-btn:active {
   transform: scale(0.9) rotate(90deg);
 }
 
-/* 3. 수입/지출 탭 - 세련된 알약 형태 */
 .type-tab-group {
   display: flex;
   background: #2a2a2a;
@@ -275,7 +290,6 @@ const handleSave = async () => {
   box-shadow: 0 4px 15px rgba(248, 167, 12, 0.3);
 }
 
-/* 4. 입력 폼 레이아웃 */
 .input-wrap {
   margin-bottom: 28px;
 }
@@ -321,7 +335,6 @@ textarea {
   outline: none;
 }
 
-/* 5. 금액 필드 시각적 강조 */
 .amount-field {
   display: flex;
   align-items: center;
@@ -342,7 +355,6 @@ textarea {
   font-weight: 800;
 }
 
-/* 6. 하단 저장 버튼 */
 .submit-btn {
   margin-top: auto;
   padding: 22px;

@@ -161,15 +161,6 @@
       "memo": "편의점 커피"
     },
     {
-      "id": 14,
-      "user_id": 1,
-      "category_id": 5,
-      "type": "EXPENSE",
-      "amount": 120000,
-      "transaction_date": "2026-04-10",
-      "memo": "주말 기차 여행 경비"
-    },
-    {
       "id": 15,
       "user_id": 1,
       "category_id": 6,
@@ -364,7 +355,7 @@
       "category_id": 2,
       "type": "EXPENSE",
       "amount": 45000,
-      "transaction_date": "2026-06-06",
+      "transaction_date": "2026-05-05",
       "memo": "자격증 응시료"
     },
     {
@@ -372,7 +363,7 @@
       "user_id": 1,
       "category_id": 8,
       "type": "INCOME",
-      "amount": 200000,
+      "amount": 220000,
       "transaction_date": "2026-05-06",
       "memo": "고객 요청 작업 정산"
     },
@@ -391,8 +382,8 @@
       "category_id": 5,
       "type": "EXPENSE",
       "amount": 95000,
-      "transaction_date": "2026-05-08",
-      "memo": "주말 여행 숙박 예약"
+      "transaction_date": "2026-04-08",
+      "memo": "주말 여행 숙박 예약합니다."
     },
     {
       "id": 40,
@@ -402,6 +393,24 @@
       "amount": 15000,
       "transaction_date": "2026-05-09",
       "memo": "민원 관련 발급 비용"
+    },
+    {
+      "user_id": 1,
+      "category_id": 7,
+      "type": "EXPENSE",
+      "amount": 242424,
+      "transaction_date": "2026-04-09",
+      "memo": "테스트임",
+      "id": 41
+    },
+    {
+      "user_id": 1,
+      "category_id": 6,
+      "type": "EXPENSE",
+      "amount": 0,
+      "transaction_date": "2026-04-09",
+      "memo": "",
+      "id": 42
     }
   ]
 }
