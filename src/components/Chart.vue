@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
-import axios from "axios";
-import { Bar, Doughnut } from "vue-chartjs";
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
+import { Bar, Doughnut } from 'vue-chartjs';
 import {
   Chart as ChartJS,
   Title,
@@ -11,8 +11,9 @@ import {
   CategoryScale,
   LinearScale,
   ArcElement,
-} from "chart.js";
+} from 'chart.js';
 
+// Chart.js 필수 구성 요소 등록
 ChartJS.register(
   Title,
   Tooltip,
@@ -23,40 +24,46 @@ ChartJS.register(
   ArcElement,
 );
 
+/** --- 상태 관리 (State) --- **/
 const isLoaded = ref(false);
-const rawData = ref({ transactions: [], categories: [] });
-const currentDate = ref(new Date(2026, 3, 8));
+const rawData = ref({ transactions: [], categories: [] }); // 서버에서 가져온 원본 데이터
+const currentDate = ref(new Date(2026, 3, 8)); // 현재 기준 날짜 (대시보드 필터 기준)
 
-const colors = ["#f8a70c", "#fab809", "#6e6053", "#8b7e74", "#4a443f"];
+// 차트 및 리스트에서 사용할 테마 색상 배열
+const colors = ['#f8a70c', '#fab809', '#6e6053', '#8b7e74', '#4a443f'];
 
+/** -- 데이터 통신 (API) --- **/
 const fetchData = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/db");
+    const response = await axios.get('http://localhost:3000/db');
     rawData.value = response.data;
     isLoaded.value = true;
   } catch (error) {
-    console.error("데이터 로드 실패:", error);
+    console.error('데이터 로드 실패:', error);
   }
 };
 
+// 컴포넌트 마운트 시 데이터 호출
 onMounted(fetchData);
 
+/** --- 데이터 가공 (Computed) --- **/
 const dashboardData = computed(() => {
   const year = currentDate.value.getFullYear();
   const month = currentDate.value.getMonth();
 
+  // 1. 월별 바 차트 데이터 생성 (최근 4개월)
   const monthlyMap = {};
   for (let i = 3; i >= 0; i--) {
     const d = new Date(year, month - i, 1);
-    const key = `${String(d.getMonth() + 1).padStart(2, "0")}월`;
+    const key = `${String(d.getMonth() + 1).padStart(2, '0')}월`;
     monthlyMap[key] = { income: 0, expense: 0 };
   }
-
+  // 트랜잭션 순회하며 해당 월에 수입/지출 합산
   rawData.value.transactions.forEach((t) => {
     const d = new Date(t.transaction_date);
-    const key = `${String(d.getMonth() + 1).padStart(2, "0")}월`;
+    const key = `${String(d.getMonth() + 1).padStart(2, '0')}월`;
     if (monthlyMap[key]) {
-      if (t.type === "INCOME") monthlyMap[key].income += t.amount;
+      if (t.type === 'INCOME') monthlyMap[key].income += t.amount;
       else monthlyMap[key].expense += t.amount;
     }
   });
@@ -66,29 +73,31 @@ const dashboardData = computed(() => {
     labels: barLabels,
     datasets: [
       {
-        label: "수입",
-        backgroundColor: "#f8a70c",
+        label: '수입',
+        backgroundColor: '#f8a70c',
         data: barLabels.map((m) => monthlyMap[m].income),
         borderRadius: 8,
-        barThickness: 45,
+        // barThickness: 45,
       },
       {
-        label: "지출",
-        backgroundColor: "#6e6053",
+        label: '지출',
+        backgroundColor: '#6e6053',
         data: barLabels.map((m) => monthlyMap[m].expense),
         borderRadius: 8,
-        barThickness: 45,
+        // barThickness: 45,
       },
     ],
   };
 
+  // 2. 도넛 차트 및 상세 리스트 가공 (현재 선택된 달의 지출만)
   const currentTransactions = rawData.value.transactions.filter((t) => {
     const d = new Date(t.transaction_date);
     return (
-      d.getFullYear() === year && d.getMonth() === month && t.type === "EXPENSE"
+      d.getFullYear() === year && d.getMonth() === month && t.type === 'EXPENSE'
     );
   });
 
+  // 카테고리별로 금액 합산을 위한 초기 객체 세팅
   const expenseByCat = {};
   rawData.value.categories.forEach(
     (c) => (expenseByCat[c.id] = { name: c.name, amount: 0 }),
@@ -102,13 +111,14 @@ const dashboardData = computed(() => {
     }
   });
 
+  // 금액이 있는 카테고리만 내림차순 정렬 및 퍼센트 계산
   const sortedList = Object.values(expenseByCat)
     .filter((c) => c.amount > 0)
     .sort((a, b) => b.amount - a.amount)
     .map((item, idx) => ({
       ...item,
       percent: total > 0 ? Math.round((item.amount / total) * 100) : 0,
-      color: colors[idx % colors.length],
+      color: colors[idx % colors.length], // 색상 배열 순환 할당
     }));
 
   const doughnutChartData = {
@@ -117,7 +127,7 @@ const dashboardData = computed(() => {
       {
         data: sortedList.map((i) => i.amount),
         backgroundColor: sortedList.map((i) => i.color),
-        cutout: "80%",
+        cutout: '80%', // 도넛 중앙 구멍 크기
         borderWidth: 0,
       },
     ],
@@ -126,45 +136,57 @@ const dashboardData = computed(() => {
   return { barChartData, doughnutChartData, total, sortedList };
 });
 
+/** --- 차트 옵션 및 플러그인 --- **/
 const barOptions = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
     legend: {
       display: true,
-      align: "end",
+      align: 'end',
       labels: {
-        color: "#ffffff",
+        color: '#ffffff',
         usePointStyle: true,
         boxWidth: 8,
-        font: { size: 10, weight: "400" },
+        font: { size: 10, weight: '400' },
       },
     },
   },
   scales: {
     x: {
       grid: { display: false },
-      ticks: { color: "#bbbbbb", font: { size: 14, weight: "600" } },
+      ticks: { color: '#bbbbbb', font: { size: 14, weight: '600' } },
+      // stacked: false
     },
-    y: { display: false },
+    y: {
+      display: false, // stacked: false }, // Y축 숨김 (깔끔한 디자인 목적)
+    },
   },
+
+  barPercentage: 0.9,
+  categoryPercentage: 0.7,
 };
 
+// 도넛 차트 중앙에 총액을 표시하기 위한 커스텀 플러그인
 const centerTextPlugin = {
-  id: "centerText",
+  id: 'centerText',
   beforeDraw: (chart) => {
     const {
       ctx,
       chartArea: { top, width, height },
     } = chart;
     ctx.save();
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "#aaaaaa";
-    ctx.font = "600 1.2rem sans-serif";
-    ctx.fillText("총 지출액", width / 2, top + height / 2 - 25);
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 2.2rem sans-serif"; // 금액 폰트 대폭 확대
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // "총 지출액" 텍스트 설정
+    ctx.fillStyle = '#aaaaaa';
+    ctx.font = '600 0.7rem sans-serif';
+    ctx.fillText('총 지출액', width / 2, top + height / 2 - 25);
+
+    // 실제 금액 텍스트 설정
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 1.1rem sans-serif'; // 금액 폰트 대폭 확대
     ctx.fillText(
       `${dashboardData.value.total.toLocaleString()}원`,
       width / 2,
@@ -174,6 +196,7 @@ const centerTextPlugin = {
   },
 };
 
+/** --- 이벤트 핸들러 --- **/
 const changeMonth = (offset) => {
   const newDate = new Date(currentDate.value);
   newDate.setMonth(newDate.getMonth() + offset);
@@ -193,7 +216,7 @@ const changeMonth = (offset) => {
           <button @click="changeMonth(-1)" class="nav-btn">◀</button>
           <span class="nav-date"
             >{{ currentDate.getFullYear() }}년
-            {{ String(currentDate.getMonth() + 1).padStart(2, "0") }}월</span
+            {{ String(currentDate.getMonth() + 1).padStart(2, '0') }}월</span
           >
           <button @click="changeMonth(1)" class="nav-btn">▶</button>
         </div>
@@ -210,7 +233,7 @@ const changeMonth = (offset) => {
             <h3>카테고리별 지출</h3>
             <p class="highlight">
               {{ currentDate.getFullYear() }}년
-              {{ String(currentDate.getMonth() + 1).padStart(2, "0") }}월 기준
+              {{ String(currentDate.getMonth() + 1).padStart(2, '0') }}월 기준
             </p>
           </div>
         </div>
@@ -256,7 +279,7 @@ const changeMonth = (offset) => {
   color: #fff;
   padding: 2px 0px;
   margin: 10px 0px;
-  font-family: "Pretendard", sans-serif;
+  font-family: 'Pretendard' sans-serif;
 }
 
 /* 기본 스타일 (데스크탑) */
@@ -357,19 +380,19 @@ h3 {
   border-radius: 50%;
 }
 .cat-name {
-  font-size: 1.1rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: #efefef;
 }
 .percent {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: #fff;
   margin-bottom: 4px;
 }
 .amount {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #999;
   font-weight: 500;
 }
