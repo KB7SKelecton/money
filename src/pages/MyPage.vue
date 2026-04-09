@@ -19,18 +19,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import axios from "axios";
-import Chart from "@/components/Chart.vue";
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import Chart from '@/components/Chart.vue';
 const router = useRouter();
 
 const balance = ref(0);
 
 const user = ref({
-  name: "",
-  email: "",
-  avatar: "",
+  name: '',
+  email: '',
+  avatar: '',
 });
 
 // 이름 수정 모드 여부 (true: input 표시, false: 텍스트 표시)
@@ -41,7 +41,7 @@ const isEditingEmail = ref(false);
 
 // 로그아웃: 홈으로 이동 (나중에 /login으로 변경 예정)
 function logout() {
-  router.push("/");
+  router.push('/');
 }
 
 // 이름 수정 시작: 텍스트 클릭 시 실행
@@ -53,7 +53,7 @@ function startEdit() {
 async function finishEdit() {
   isEditingName.value = false;
   // 이름 수정 완료 시 db에 저장
-  await axios.patch("http://localhost:3000/users/1", {
+  await axios.patch('http://localhost:3000/users/1', {
     nickname: user.value.name,
   });
 }
@@ -67,13 +67,13 @@ function startEditEmail() {
 async function finishEditEmail() {
   isEditingEmail.value = false;
   // 이메일 수정 완료 시 db에 저장
-  await axios.patch("http://localhost:3000/users/1", {
+  await axios.patch('http://localhost:3000/users/1', {
     email: user.value.email,
   });
 }
 
 onMounted(async () => {
-  const res = await axios.get("http://localhost:3000/users/1");
+  const res = await axios.get('http://localhost:3000/users/1');
   user.value.name = res.data.nickname;
   user.value.email = res.data.email;
   user.value.avatar = res.data.profile_image_url;
@@ -101,7 +101,7 @@ function onAvatarChange(event) {
   min-height: 100vh;
   background-color: #131313;
   padding: 0;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* 왼쪽 메인 영역: 나머지 공간 전부 차지 */
@@ -286,7 +286,7 @@ function onAvatarChange(event) {
   padding: 6px 10px;
   width: 100%;
   outline: none;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* 이메일 수정 input */
@@ -301,7 +301,7 @@ function onAvatarChange(event) {
   width: 100%;
   outline: none;
   opacity: 0.7;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* 사이드바 아래쪽: 로그아웃 버튼 영역 */
@@ -325,7 +325,7 @@ function onAvatarChange(event) {
   cursor: pointer;
   font-size: 1rem;
   font-weight: 400;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -360,31 +360,45 @@ function onAvatarChange(event) {
   font-weight: 700;
   opacity: 0.2;
 }
-/* 모바일 반응형 설정 */
-@media (max-width: 767px) {
+
+/* MyPage.vue <style scoped> 최하단에 추가 */
+/* 태블릿 및 작은 모니터 (1024px) */
+@media (max-width: 1024px) {
   .mypage-main {
-    padding: 24px 16px; /* 좌우 여백 줄임 */
+    padding: 30px 20px; /* 양옆 여백을 줄여 컨텐츠 공간 확보 */
   }
 
   .mypage-title {
-    font-size: 1.5rem; /* 2rem → 1.5rem */
+    font-size: 1.8rem; /* 제목 크기를 살짝 조절 */
+    margin-bottom: 15px;
   }
 
   .mypage-balance {
-    padding: 12px 16px 12px 25px; /* 좌우 패딩 줄임 */
-    display: block;
-    width: 200px; /* 모바일에서 꽉 채움 */
-    gap: 0;
-    display: inline-flex; /* inline-flex → block으로 변경 */
-    margin: 0 auto; /* 좌우 여백 자동으로 균등 배분 */
+    padding: 14px 25px; /* 잔고 박스 크기 최적화 */
   }
-  .balance-label {
-    font-size: 0.6rem; /* 0.7rem → 0.6rem */
-    letter-spacing: 0.1em; /* 글자 사이 간격 줄임 */
+}
+
+@media (max-width: 768px) {
+  .mypage-main {
+    padding: 32px 24px; /* 태블릿: 좌우 여백 축소 */
+  }
+}
+
+@media (max-width: 375px) {
+  .mypage-main {
+    padding: 24px 16px; /* 모바일: 최소 여백 */
   }
 
-  .balance-amount {
-    font-size: 1.2rem; /* 1.6rem → 1.2rem */
+  .mypage-title {
+    text-align: center; /* 모바일: 제목 중앙 정렬 */
+  }
+
+  .mypage-balance {
+    display: flex;
+    width: 100%; /* 모바일: 잔고 박스 가로 풀사이즈 */
+    box-sizing: border-box;
+    align-items: center; /* 텍스트 중앙 정렬 */
+    padding: 16px;
   }
 }
 </style>

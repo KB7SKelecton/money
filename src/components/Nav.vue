@@ -1,17 +1,17 @@
 <template>
   <nav class="side-nav">
     <div class="menu-group">
-      <router-link to="/" class="nav-item">
+      <router-link :to="{ name: 'home' }" class="nav-item">
         <i class="fas fa-calendar-alt icon"></i>
         <span>홈/달력</span>
       </router-link>
 
-      <router-link to="/list" class="nav-item">
+      <router-link :to="{ name: 'list' }" class="nav-item">
         <i class="fas fa-file-invoice-dollar icon"></i>
         <span>재정 내역</span>
       </router-link>
 
-      <router-link to="/mypage" class="nav-item">
+      <router-link :to="{ name: 'mypage' }" class="nav-item">
         <i class="fas fa-user-circle icon"></i>
         <span>마이페이지</span>
       </router-link>
@@ -73,20 +73,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 const user = ref({
-  name: "",
-  email: "",
-  avatar: "",
+  name: '',
+  email: '',
+  avatar: '',
 });
 
 const isEditingName = ref(false);
 const isEditingEmail = ref(false);
 
 onMounted(async () => {
-  const res = await axios.get("http://localhost:3000/users/1");
+  const res = await axios.get('http://localhost:3000/users/1');
   user.value.name = res.data.nickname;
   user.value.email = res.data.email;
   user.value.avatar = res.data.profile_image_url;
@@ -94,14 +94,14 @@ onMounted(async () => {
 
 async function finishEditName() {
   isEditingName.value = false;
-  await axios.patch("http://localhost:3000/users/1", {
+  await axios.patch('http://localhost:3000/users/1', {
     nickname: user.value.name,
   });
 }
 
 async function finishEditEmail() {
   isEditingEmail.value = false;
-  await axios.patch("http://localhost:3000/users/1", {
+  await axios.patch('http://localhost:3000/users/1', {
     email: user.value.email,
   });
 }
@@ -151,7 +151,7 @@ function onAvatarChange(event) {
   position: relative;
 }
 
-.nav-item.router-link-active {
+.nav-item.router-link-exact-active {
   color: #fff;
   background: linear-gradient(
     90deg,
@@ -160,8 +160,8 @@ function onAvatarChange(event) {
   );
 }
 
-.nav-item.router-link-active::before {
-  content: "";
+.nav-item.router-link-exact-active::before {
+  content: '';
   position: absolute;
   left: 0;
   top: 0;
@@ -172,12 +172,12 @@ function onAvatarChange(event) {
   z-index: 5;
 }
 
-.nav-item.router-link-active .icon {
+.nav-item.router-link-exact-active .icon {
   color: #ffb347;
   filter: drop-shadow(0 0 5px rgba(255, 179, 71, 0.3));
 }
 
-.nav-item.router-link-active span {
+.nav-item.router-link-exact-active span {
   color: #ffffff;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -276,7 +276,7 @@ function onAvatarChange(event) {
   padding: 6px 10px;
   width: 100%;
   outline: none;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* 모바일에서는 좌측 사이드바 -> 하단 탭바 */
@@ -318,7 +318,7 @@ function onAvatarChange(event) {
     font-size: 14px;
   }
 
-  .nav-item.router-link-active {
+  .nav-item.router-link-exact-active {
     background: linear-gradient(
       180deg,
       rgba(255, 179, 71, 0.18) 0%,
@@ -326,7 +326,7 @@ function onAvatarChange(event) {
     );
   }
 
-  .nav-item.router-link-active::before {
+  .nav-item.router-link-exact-active::before {
     top: 0;
     left: 50%;
     transform: translateX(-50%);

@@ -2,13 +2,10 @@
   <button
     @click="isModalOpen = true"
     class="fab-button"
-    v-if="
-      route.path !== '/mypage' &&
-      route.path !== '/login' &&
-      route.path !== '/register'
-    "
+    v-if="!['/mypage', '/login', '/register'].includes(route.path)"
   >
-    <i class="fas fa-plus"></i>
+    <i class="fas fa-plus pc-only"></i>
+    <span class="mobile-only">내역 등록</span>
   </button>
   <div class="register-modal" :class="{ 'is-open': isModalOpen }">
     <div class="register-header">
@@ -152,8 +149,8 @@ const handleSave = async () => {
   position: fixed;
   right: 40px;
   bottom: 40px;
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   background: linear-gradient(135deg, #f8a70c, #fab809);
   border-radius: 50%;
   border: none;
@@ -173,6 +170,10 @@ const handleSave = async () => {
 .fab-button:hover {
   transform: scale(1.1) rotate(90deg);
   box-shadow: 0 12px 32px rgba(248, 167, 12, 0.6);
+}
+
+.mobile-only {
+  display: none;
 }
 
 /* 2. 모달 컨테이너 - 글래스모피즘 효과 */
@@ -367,5 +368,33 @@ textarea {
 
 .submit-btn:active {
   transform: translateY(1px) scale(0.98);
+}
+
+@media screen and (max-width: 768px) {
+  .fab-button {
+    width: auto;
+    height: auto;
+    padding: 10px 20px;
+    border-radius: 30px;
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 80px;
+    gap: 10px;
+  }
+
+  .fab-button:hover {
+    transform: translateX(50%) scale(1.05);
+  }
+
+  .fab-button:active {
+    transform: translateX(50%) scale(0.9);
+    filter: brightness(0.9);
+  }
+
+  .mobile-only {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
 }
 </style>

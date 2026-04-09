@@ -1,7 +1,5 @@
 <template>
   <div class="login-container">
-    <div class="bg-decoration"></div>
-
     <form @submit.prevent="handleLogin" id="loginFrm" class="login-box">
       <h1 class="logo">
         <img src="../assets/logo.png" alt="SHOW ME THE MONEY" />
@@ -28,9 +26,8 @@
         <span>가계부를 만들어봐요</span>
         <i class="icon-shield">🛡️</i>
       </div>
+      <p class="copyright">© 2026 Ozosama Skeleton Project</p>
     </form>
-
-    <p class="copyright">© 2026 Ozosama Skeleton Project</p>
   </div>
 </template>
 
@@ -76,7 +73,7 @@ const handleLogin = async () => {
 /* 전체 화면 설정 */
 .login-container {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #0d0d0d;
   background-image: radial-gradient(circle at center, #1a1a1a 0%, #0d0d0d 100%);
   display: flex;
@@ -85,7 +82,6 @@ const handleLogin = async () => {
   align-items: center;
   position: fixed;
   overflow: hidden;
-  font-family: 'Inter', sans-serif;
   z-index: 9999;
   left: 0;
 }
@@ -183,7 +179,7 @@ input:focus {
 
 /* 하단 보안 정보 */
 .footer-info {
-  margin-top: 40px;
+  margin: 40px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -193,10 +189,65 @@ input:focus {
 }
 
 .copyright {
-  position: absolute;
-  bottom: 30px;
+  text-align: center;
   color: #333;
   font-size: 10px;
   letter-spacing: 1px;
+}
+
+@media screen and (max-width: 768px) {
+  /* 전체 컨테이너 고정 해제하여 스크롤 허용 */
+  .login-container {
+    position: relative;
+    padding: 40px 20px;
+  }
+
+  /* 로그인 박스 너비를 화면에 꽉 차게 조절 */
+  .login-box {
+    width: 100%;
+    max-width: none;
+    padding: 40px 24px;
+    background: transparent; /* 모달 느낌 대신 배경과 일체화 */
+    box-shadow: none;
+    border: none;
+  }
+
+  /* 로고 사이즈 조절 */
+  .logo img {
+    width: 160px;
+  }
+
+  /* 입력창 터치 영역 확대 */
+  input {
+    padding: 18px; /* 터치하기 편하게 높이 추가 */
+    font-size: 16px; /* iOS 자동 줌 방지를 위한 최소 16px 권장 */
+    border-radius: 12px;
+  }
+
+  /* 버튼 크기 및 폰트 조절 */
+  .submit-btn {
+    padding: 20px;
+    font-size: 18px;
+    border-radius: 12px;
+    margin-top: 10px;
+  }
+
+  /* 하단 카피라이트 위치 조정 */
+  .copyright {
+    position: relative;
+    bottom: auto;
+    margin-top: 50px;
+    text-align: center;
+  }
+}
+
+/* 초소형 기기 (320px 이하) 대응 */
+@media screen and (max-width: 320px) {
+  .login-box {
+    padding: 20px 10px;
+  }
+  .logo img {
+    width: 120px;
+  }
 }
 </style>
