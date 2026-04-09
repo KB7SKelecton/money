@@ -128,7 +128,8 @@ function onAvatarChange(event) {
   justify-content: space-between;
   padding: 20px 0;
   z-index: 9998;
-  position: fixed;
+  position: sticky;
+  top: 64px;
   left: 0;
 }
 
@@ -279,7 +280,7 @@ function onAvatarChange(event) {
   font-family: 'Manrope', sans-serif;
 }
 
-/* 모바일에서는 좌측 사이드바 -> 하단 탭바 */
+/* 모바일 반응형 */
 @media (max-width: 767px) {
   .side-nav {
     width: 100%;
