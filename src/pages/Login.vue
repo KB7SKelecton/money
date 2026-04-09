@@ -75,6 +75,7 @@ const handleLogin = async () => {
 <style scoped>
 /* 전체 화면 설정 */
 .login-container {
+  width: 100%;
   min-height: 100vh;
   background-color: #0d0d0d;
   background-image: radial-gradient(circle at center, #1a1a1a 0%, #0d0d0d 100%);
@@ -82,9 +83,11 @@ const handleLogin = async () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
+  position: fixed;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
+  z-index: 9999;
+  left: 0;
 }
 
 /* 로고 및 제목 */

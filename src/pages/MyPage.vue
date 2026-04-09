@@ -399,6 +399,4 @@ function onAvatarChange(event) {
     box-sizing: border-box;
     align-items: center; /* 텍스트 중앙 정렬 */
     padding: 16px;
-  }
-}
 </style>
