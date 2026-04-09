@@ -316,13 +316,13 @@ const totalBalance = computed(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem;
+  padding: 0 1.4rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 10;
 }
 
 .logo {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 900;
   color: #e5e2e1;
   /* font-style: italic; */
