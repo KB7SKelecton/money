@@ -360,4 +360,31 @@ function onAvatarChange(event) {
   font-weight: 700;
   opacity: 0.2;
 }
+/* 모바일 반응형 설정 */
+@media (max-width: 767px) {
+  .mypage-main {
+    padding: 24px 16px; /* 좌우 여백 줄임 */
+  }
+
+  .mypage-title {
+    font-size: 1.5rem; /* 2rem → 1.5rem */
+  }
+
+  .mypage-balance {
+    padding: 12px 16px 12px 25px; /* 좌우 패딩 줄임 */
+    display: block;
+    width: 200px; /* 모바일에서 꽉 채움 */
+    gap: 0;
+    display: inline-flex; /* inline-flex → block으로 변경 */
+    margin: 0 auto; /* 좌우 여백 자동으로 균등 배분 */
+  }
+  .balance-label {
+    font-size: 0.6rem; /* 0.7rem → 0.6rem */
+    letter-spacing: 0.1em; /* 글자 사이 간격 줄임 */
+  }
+
+  .balance-amount {
+    font-size: 1.2rem; /* 1.6rem → 1.2rem */
+  }
+}
 </style>

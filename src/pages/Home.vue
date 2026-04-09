@@ -748,4 +748,53 @@ const totalBalance = computed(() => {
 .total-box .balance-amount {
   color: #1a1c1e;
 }
+
+/* 반응형 웹 767px 기준 */
+@media (max-width: 1024px) {
+  /* 1. 사이드바를 숨기지 않고 아래로 보냄 */
+  .content-wrapper {
+    flex-direction: column; /* 가로 배열에서 세로 배열로 변경 */
+    overflow-y: auto; /* 전체적으로 스크롤이 생기도록 설정 */
+  }
+
+  /* 2. 달력 영역 높이 조절 */
+  .calendar-container {
+    flex: none; /* 고정 높이를 가지도록 설정 */
+    height: auto;
+    padding: 8px;
+  }
+
+  /* 3. 사이드바(상세내역) 스타일 변경 */
+  .side-bar {
+    width: 100%; /* 가로 길이를 전체로 확장 */
+    border-left: none; /* 기존 왼쪽 테두리 제거 */
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* 상단 구분선 추가 */
+    padding: 20px;
+    background: #1a1a1a; /* 달력과 약간의 색상 차이를 두어 구분감 생성 */
+    min-height: 300px; /* 내용이 보일 수 있는 최소 높이 확보 */
+  }
+
+  /* 4. 달력 그리드 최적화 (가로 잘림 방지) */
+  .calendar-grid {
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+  }
+
+  .date-cell {
+    min-height: 70px; /* 세로로 길어지므로 셀 높이를 적당히 줄임 */
+  }
+
+  /* 5. 요일(일~토) 라벨 크기 축소 */
+  .day-label {
+    padding: 10px 0;
+    font-size: 0.75rem; /* 글자 크기를 줄여서 칸이 안 깨지게 함 */
+  }
+
+  /* 5. 금액 폰트 미세 조정 */
+  .cell-income,
+  .cell-expense {
+    font-size: 6px;
+    letter-spacing: -0.5px;
+  }
+}
 </style>
