@@ -688,7 +688,7 @@ const totalBalance = computed(() => {
 }
 .summary-container {
   display: flex;
-  gap: 0px;
+  gap: 10px;
   padding: 10px 0;
   flex-wrap: nowrap; /* 화면이 좁아지면 아래로 내려가도록 */
 }
@@ -725,17 +725,21 @@ const totalBalance = computed(() => {
 /* 수입 강조 (초록빛/파란빛) */
 .income-box .balance-label {
   color: #84d4ff;
+  font-size: 10px;
 }
 .income-box .balance-amount {
   color: #84d4ff;
+  font-size: 10px;
 }
 
 /* 지출 강조 (노란색/주황색) */
 .expense-box .balance-label {
   color: #ffee03;
+  font-size: 10px;
 }
 .expense-box .balance-amount {
   color: #ffee03;
+  font-size: 10px;
 }
 
 /* 통합창 강조 (이미지처럼 배경색 반전 효과 가능) */
@@ -744,9 +748,11 @@ const totalBalance = computed(() => {
 }
 .total-box .balance-label {
   color: #1a1c1e;
+  font-size: 10px;
 }
 .total-box .balance-amount {
   color: #1a1c1e;
+  font-size: 10px;
 }
 
 /* 반응형 웹 767px 기준 */
