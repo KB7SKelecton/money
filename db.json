@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "email": "",
+      "email": "money@test.com",
       "nickname": "신짱구",
       "profile_image_url": "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTAyMTRfMTgy%2FMDAxNzM5NTQxNzA1NDQ0.RfZH9MCSEaJCDutt8GVQHk0ndqVLcWKBLE9UUxKHb8Qg.bZb_3iKvCHLlk6JvjTKCgMSyht4ETwjcudBcy0fTHzYg.PNG%2Fimage.png&type=sc960_832",
       "initial_balance": 300000

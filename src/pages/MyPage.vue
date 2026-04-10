@@ -106,7 +106,7 @@ function onAvatarChange(event) {
 /* 왼쪽 메인 영역: 나머지 공간 전부 차지 */
 .mypage-main {
   flex: 1;
-  padding: 28px 20px;
+  padding: 20px;
   width: 100%;
 }
 
@@ -121,7 +121,6 @@ function onAvatarChange(event) {
   font-size: 1.5rem;
   font-weight: 600;
   color: #ffffff;
-  line-height: 1;
   margin: 0 0 12px 0; /* 깔끔하게 */
   padding: 0; /* 기존 padding 제거 */
   letter-spacing: -0.05em; /* 홈 기준 맞춤 */
