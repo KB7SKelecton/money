@@ -933,6 +933,7 @@ const totalBalance = computed(() => {
     font-size: 1rem;
     font-weight: 600;
     color: #e5e2e1;
+    margin-bottom: 0;
   }
   .nav-btn {
     background: #2a2a2a;
