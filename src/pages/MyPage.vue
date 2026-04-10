@@ -1,17 +1,24 @@
 <template>
+  <!-- 마이페이지 전체 레이아웃 래퍼 -->
   <div class="mypage">
     <!-- 왼쪽 메인 영역 -->
     <div class="mypage-main">
       <!-- 마이페이지 헤더 박스 (제목 + 잔고) -->
       <div class="mypage-header">
+        <!-- 페이지 제목 -->
         <h1 class="mypage-title">마이페이지</h1>
+
+        <!-- 잔고 표시 박스 -->
         <div class="mypage-balance">
           <span class="balance-label">AVAILABLE ASSETS</span>
-          <!-- toLocaleString(): 숫자에 쉼표 자동으로 붙여줌 (5500000 → 5,500,000) -->
+
+          <!-- toLocaleString(): 숫자에 천 단위 쉼표 자동 삽입 -->
           <span class="balance-amount"
             >잔고 : {{ balance.toLocaleString() }}원</span
           >
         </div>
+
+        <!-- 차트 컴포넌트 (Chart.vue에서 정의된 차트를 여기 렌더링) -->
         <Chart />
       </div>
     </div>
@@ -19,35 +26,56 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue"; // computed 추가
-import { useRouter } from "vue-router";
-import axios from "axios";
-import Chart from "@/components/Chart.vue";
-import db from "../../db.json"; // db import 추가
+// ref: 반응형 단순 값 선언 / computed: 다른 값에 의존하는 계산된 값 / onMounted: 컴포넌트 마운트 후 실행
+import { ref, computed, onMounted } from "vue";
 
+// 페이지 이동을 위한 Vue Router 훅
+import { useRouter } from "vue-router";
+
+// HTTP 요청 라이브러리 (json-server와 통신)
+import axios from "axios";
+
+// 차트 컴포넌트 등록
+import Chart from "@/components/Chart.vue";
+
+// json 파일 직접 import (초기 잔고 계산용 - 로컬 데이터 직접 참조)
+import db from "../../db.json";
+
+// 라우터 인스턴스 생성 (router.push()로 페이지 이동할 때 사용)
 const router = useRouter();
 
+// 사용자 정보를 담는 반응형 객체
+// ref({})로 선언하면 내부 값이 바뀔 떄 화면이 자동으로 다시 렌더링됨
 const user = ref({
   name: "",
   email: "",
   avatar: "",
 });
 
+//json-server에서 가져온 초기 잔고
 const initialBalance = ref(0);
 
-// balance는 computed로 선언 (onMounted 밖에!)
+// computed: initialBalance나 db.transactions가 바뀌면 자동으로 재계산됨
+// onMounted 바깥에 선언해야 반응형으로 동작함 (안에 넣으면 한 번만 실행됨)
 const balance = computed(() => {
+  // 거래 목록인 db.transactions를 순회(하나씩 꺼내서 확인)하면서 수입은 더하고, 지출은 빼서 최종 잔고 계산
+  // reduce(누적함수, 초기값)로 배열을 하나의 값으로 합산
   const totalChange = db.transactions.reduce((acc, t) => {
     return t.type === "INCOME" ? acc + t.amount : acc - t.amount;
   }, 0);
+  // 초기 잔고 + 전체 수입/지출 변화량 = 현재 잔고
   return initialBalance.value + totalChange;
 });
 
+// 이름 수정 모드 여부
 const isEditingName = ref(false);
+// 이메일 수정 모드여부
 const isEditingEmail = ref(false);
 
+// 로그아웃:홈(로그인) 화면으로 이동
 function logout() {
-  router.push("/");
+  localStorage.removeItem("user"); // 로그인 정보 삭제
+  router.push("/login");
 }
 
 function startEdit() {
