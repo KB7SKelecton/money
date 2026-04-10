@@ -73,20 +73,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 const user = ref({
-  name: "",
-  email: "",
-  avatar: "",
+  name: '',
+  email: '',
+  avatar: '',
 });
 
 const isEditingName = ref(false);
 const isEditingEmail = ref(false);
 
 onMounted(async () => {
-  const res = await axios.get("http://localhost:3000/users/1");
+  const res = await axios.get('http://localhost:3000/users/1');
   user.value.name = res.data.nickname;
   user.value.email = res.data.email;
   user.value.avatar = res.data.profile_image_url;
@@ -94,14 +94,14 @@ onMounted(async () => {
 
 async function finishEditName() {
   isEditingName.value = false;
-  await axios.patch("http://localhost:3000/users/1", {
+  await axios.patch('http://localhost:3000/users/1', {
     nickname: user.value.name,
   });
 }
 
 async function finishEditEmail() {
   isEditingEmail.value = false;
-  await axios.patch("http://localhost:3000/users/1", {
+  await axios.patch('http://localhost:3000/users/1', {
     email: user.value.email,
   });
 }
@@ -120,9 +120,8 @@ function onAvatarChange(event) {
 <style scoped>
 .side-nav {
   width: 260px;
-  height: 100vh;
-  top: 64px; /* 헤더 높이만큼 아래서 시작 */
-
+  height: calc(100vh - 64px);
+  top: 64px;
   background-color: #0d0d0d;
   border-right: 1px solid #222;
   display: flex;
@@ -164,7 +163,7 @@ function onAvatarChange(event) {
 }
 
 .nav-item.router-link-exact-active::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 0;
@@ -279,7 +278,7 @@ function onAvatarChange(event) {
   padding: 6px 10px;
   width: 100%;
   outline: none;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* 모바일 반응형 */
