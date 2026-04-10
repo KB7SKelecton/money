@@ -426,7 +426,7 @@ const totalBalance = computed(() => {
   letter-spacing: -0.02em;
 }
 
-/* 현재 월 ( 달력 ) */
+/* 현재 월 ( 달력 ) 월 넘기는 버튼 */
 .nav-btn {
   background: #2a2a2a;
   color: #e5e2e1;
@@ -753,24 +753,6 @@ const totalBalance = computed(() => {
   flex-shrink: 0;
 }
 
-/* 월 통계창 박스 */
-.balance-label {
-  font-size: 1.4rem;
-  color: #f8a70c;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.balance-amount {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #e5e2e1;
-  white-space: nowrap; /* 줄바꿈 금지 */
-  overflow: hidden; /* 넘치는 부분 숨김 */
-  text-overflow: ellipsis; /* 너무 길면 ... 처리 */
-  width: 100%;
-}
 .summary-container {
   display: flex;
   gap: 10px;
@@ -793,18 +775,21 @@ const totalBalance = computed(() => {
 }
 
 .balance-label {
-  font-size: 0.8rem;
-  color: #f8a70c; /* 기본 노란색 */
+  font-size: 1.4rem;
+  color: #f8a70c;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .balance-amount {
-  font-size: 1rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #e5e2e1;
-  white-space: nowrap;
+  white-space: nowrap; /* 줄바꿈 금지 */
+  overflow: hidden; /* 넘치는 부분 숨김 */
+  text-overflow: ellipsis; /* 너무 길면 ... 처리 */
+  width: 100%;
 }
 
 /* 수입 강조 (초록빛/파란빛) */
