@@ -731,7 +731,6 @@ onMounted(() => {
   margin-bottom: 20px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(255, 188, 0, 0.08) 0%, transparent 100%);
 }
 
 .page-title {
