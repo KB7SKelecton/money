@@ -77,22 +77,25 @@ function logout() {
   localStorage.removeItem("user"); // 로그인 정보 삭제
   router.push("/login");
 }
-
+// 이름 수정 모드 진입
 function startEdit() {
-  isEditingName.value = true;
+  isEditingName.value = true; // 이름 수정창 열어
 }
 
+// 이름 수정 완료: 수정 모드 종료 + json-server에 PATCH 요청으로 닉네임 업데이트
 async function finishEdit() {
-  isEditingName.value = false;
+  isEditingName.value = false; // 이름 수정창 닫아
   await axios.patch("http://localhost:3000/users/1", {
     nickname: user.value.name,
   });
 }
 
+// 이메일 수정 모드 진입
 function startEditEmail() {
   isEditingEmail.value = true;
 }
 
+// 이메일 수정 완료: 수정 모드 종료 + json-server에 PATCH 요청으로 이메일 업데이트
 async function finishEditEmail() {
   isEditingEmail.value = false;
   await axios.patch("http://localhost:3000/users/1", {
@@ -100,23 +103,30 @@ async function finishEditEmail() {
   });
 }
 
-// onMounted는 한 번만!
+// 컴포넌트가 화면에 마운트된 직후 실행 (DOM이 준비된 시점)
 onMounted(async () => {
+  // json-server에서 users/1 데이터 가져오기 (GET 요청)
   const res = await axios.get("http://localhost:3000/users/1");
+  // 응답 데이터를 user 객체에 반영 (화면 자동 업데이트됨)
   user.value.name = res.data.nickname;
   user.value.email = res.data.email;
   user.value.avatar = res.data.profile_image_url;
+  // 초기 잔고도 서버에서 받아와서 세팅 (computed balance 계산의 기준값)ㅁㅁㅁㅁㅁㅁㅁㅁ
   initialBalance.value = res.data.initial_balance;
 });
 
+// 프로필 이미지 파일 선택 시 실행
+// FileReader API를 사용해 선택한 이미지를 base64 문자열로 변환해서 미리보기 처리
 function onAvatarChange(event) {
-  const file = event.target.files[0];
+  const file = event.target.files[0]; //파일 선택
   if (!file) return;
-  const reader = new FileReader();
+  // 파일을 다 읽으면 실행됨
+  const reader = new FileReader(); //파일 읽는 기계 만들기
   reader.onload = (e) => {
+    // 읽은 이미지를 문자열로 변환해서 avatar에 저장 (→ 바로 미리보기 가능)
     user.value.avatar = e.target.result;
-  };
-  reader.readAsDataURL(file);
+  }; //파일 다 읽으면 실행할 코드
+  reader.readAsDataURL(file); //실제로 파일 읽기 시작
 }
 </script>
 
