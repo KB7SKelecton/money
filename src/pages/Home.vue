@@ -366,7 +366,7 @@ const totalBalance = computed(() => {
 /* 홈/달력 글자 */
 .logo {
   font-size: 1.5rem;
-  font-weight: 900;
+  font-weight: 600;
   color: #e5e2e1;
   /* font-style: italic; */
   letter-spacing: -0.05em;
