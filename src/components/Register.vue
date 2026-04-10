@@ -89,6 +89,7 @@ import { ref, reactive, computed } from 'vue';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 
+// 라우터
 const route = useRoute();
 
 const props = defineProps({ isOpen: Boolean });
@@ -153,7 +154,7 @@ const handleSave = async () => {
 
     if (response.status === 201) {
       alert('성공적으로 저장되었습니다!');
-      emit('refresh'); // 부모 컴포넌트에 목록 갱신 요청
+      emit('refresh');
       emit('close');
     }
   } catch (error) {
@@ -382,6 +383,7 @@ textarea {
   transform: translateY(1px) scale(0.98);
 }
 
+/* 모바일 반응형 */
 @media screen and (max-width: 768px) {
   .fab-button {
     width: auto;

@@ -37,6 +37,7 @@ export default {
       userName.value = res.data.nickname;
       userProfileImg.value = res.data.profile_image_url;
     });
+
     const handleLogout = () => {
       localStorage.removeItem('user');
       router.push('/login');
@@ -59,12 +60,14 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
+
 .main-content {
   background-color: #131313;
   flex: 1;
   min-width: 0;
 }
 
+/* 모바일 반응형 */
 @media (max-width: 767px) {
   .app-layout {
     flex-direction: column;
