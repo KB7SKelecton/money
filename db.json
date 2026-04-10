@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "email": "",
+      "email": "money@test.com",
       "nickname": "신짱구",
       "profile_image_url": "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTAyMTRfMTgy%2FMDAxNzM5NTQxNzA1NDQ0.RfZH9MCSEaJCDutt8GVQHk0ndqVLcWKBLE9UUxKHb8Qg.bZb_3iKvCHLlk6JvjTKCgMSyht4ETwjcudBcy0fTHzYg.PNG%2Fimage.png&type=sc960_832",
       "initial_balance": 300000
@@ -159,15 +159,6 @@
       "amount": 4200,
       "transaction_date": "2026-04-07",
       "memo": "편의점 커피"
-    },
-    {
-      "id": 14,
-      "user_id": 1,
-      "category_id": 5,
-      "type": "EXPENSE",
-      "amount": 120000,
-      "transaction_date": "2026-04-10",
-      "memo": "주말 기차 여행 경비"
     },
     {
       "id": 15,
@@ -364,7 +355,7 @@
       "category_id": 2,
       "type": "EXPENSE",
       "amount": 45000,
-      "transaction_date": "2026-06-06",
+      "transaction_date": "2026-05-05",
       "memo": "자격증 응시료"
     },
     {
@@ -372,7 +363,7 @@
       "user_id": 1,
       "category_id": 8,
       "type": "INCOME",
-      "amount": 200000,
+      "amount": 220000,
       "transaction_date": "2026-05-06",
       "memo": "고객 요청 작업 정산"
     },
@@ -391,8 +382,8 @@
       "category_id": 5,
       "type": "EXPENSE",
       "amount": 95000,
-      "transaction_date": "2026-05-08",
-      "memo": "주말 여행 숙박 예약"
+      "transaction_date": "2026-04-08",
+      "memo": "주말 여행 숙박 예약합니다."
     },
     {
       "id": 40,
@@ -403,24 +394,6 @@
       "transaction_date": "2026-05-09",
       "memo": "민원 관련 발급 비용"
     },
-    {
-      "user_id": 1,
-      "category_id": 6,
-      "type": "EXPENSE",
-      "amount": 14000,
-      "transaction_date": "2026-04-10",
-      "memo": "점심식사",
-      "id": 41
-    },
-    {
-      "user_id": 1,
-      "category_id": 6,
-      "type": "EXPENSE",
-      "amount": 14000,
-      "transaction_date": "2026-03-10",
-      "memo": "점심식사",
-      "id": 42
-    }
     {
       "id": 41,
       "user_id": 1,
