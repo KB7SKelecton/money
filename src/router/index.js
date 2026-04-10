@@ -9,6 +9,7 @@ import Login from '@/pages/Login.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // 메인 레이아웃 중첩 라우팅
     {
       path: '/',
       component: MainLayout,
@@ -26,6 +27,7 @@ const router = createRouter({
   ],
 });
 
+// 로컬 스토리지에 user 데이터 유무를 통해 비로그인 링크 무단 접속 방지를 위한 로직
 /* router.beforeEach((to, from) => {
   const loggedInUser = localStorage.getItem('user');
   const isLoginPage = to.path === '/login';

@@ -36,12 +36,15 @@ import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
+// 라우터
 const router = useRouter();
 
+// 로그인 시 필요한 이메일 데이터
 const loginData = reactive({
   email: '',
 });
 
+// 로그인 로직
 const handleLogin = async () => {
   try {
     // 1. db.json에서 유저 목록 가져오기
@@ -52,14 +55,14 @@ const handleLogin = async () => {
     const user = users.find((u) => u.email === loginData.email);
 
     if (user) {
-      // 로그인 성공: 유저 정보를 로컬 스토리지에 저장 (나중에 user_id를 쓰기 위함)
+      // 로그인 성공 시 유저 정보를 로컬 스토리지에 저장
       localStorage.setItem('user', JSON.stringify(user));
       alert(`${user.nickname}님, 환영합니다!`);
 
       // 메인 페이지로 이동
       router.push('/');
     } else {
-      // 로그인 실패: 일치하는 이메일 없음
+      // 로그인 실패 시 메세지
       alert('등록되지 않은 사용자 이메일입니다. 다시 확인해주세요.');
     }
   } catch (error) {
@@ -70,7 +73,6 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-/* 전체 화면 설정 */
 .login-container {
   width: 100%;
   height: 100vh;
@@ -86,16 +88,17 @@ const handleLogin = async () => {
   left: 0;
 }
 
-/* 로고 및 제목 */
 .logo {
   text-align: center;
   margin-bottom: 40px;
 }
+
 .logo img {
   width: 200px;
   display: block;
   margin: 0 auto 10px;
 }
+
 .subtitle {
   color: #666;
   font-size: 12px;
@@ -103,7 +106,6 @@ const handleLogin = async () => {
   font-weight: 300;
 }
 
-/* 메인 로그인 박스 */
 .login-box {
   width: 100%;
   max-width: 420px;
@@ -111,25 +113,27 @@ const handleLogin = async () => {
   padding: 50px 40px;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border-top: 1px solid #444; /* 상단 미세한 하이라이트 */
+  border-top: 1px solid #444;
   z-index: 10;
 }
 
-/* 입력창 스타일 */
 .input-wrap {
   margin-bottom: 30px;
 }
+
 .label-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
+
 .label-group label {
-  color: #ffb347; /* 이미지의 골드 텍스트 컬러 */
+  color: #ffb347;
   font-size: 13px;
   font-weight: 600;
 }
+
 .icon-user {
   font-size: 12px;
   opacity: 0.5;
@@ -146,6 +150,7 @@ input {
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
+
 input:focus {
   outline: none;
   border-color: #ffb347;
@@ -153,7 +158,6 @@ input:focus {
   box-shadow: 0 0 10px rgba(255, 179, 71, 0.2);
 }
 
-/* 시작하기 버튼 */
 .submit-btn {
   width: 100%;
   padding: 18px;
@@ -169,15 +173,16 @@ input:focus {
     box-shadow 0.2s;
   box-shadow: 0 4px 15px rgba(255, 179, 71, 0.3);
 }
+
 .submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 179, 71, 0.4);
 }
+
 .submit-btn:active {
   transform: translateY(0);
 }
 
-/* 하단 보안 정보 */
 .footer-info {
   margin: 40px 0;
   display: flex;
@@ -195,36 +200,32 @@ input:focus {
   letter-spacing: 1px;
 }
 
+/* 모바일 반응형 */
 @media screen and (max-width: 768px) {
-  /* 전체 컨테이너 고정 해제하여 스크롤 허용 */
   .login-container {
     position: relative;
     padding: 40px 20px;
   }
 
-  /* 로그인 박스 너비를 화면에 꽉 차게 조절 */
   .login-box {
     width: 100%;
     max-width: none;
     padding: 40px 24px;
-    background: transparent; /* 모달 느낌 대신 배경과 일체화 */
+    background: transparent;
     box-shadow: none;
     border: none;
   }
 
-  /* 로고 사이즈 조절 */
   .logo img {
     width: 160px;
   }
 
-  /* 입력창 터치 영역 확대 */
   input {
-    padding: 18px; /* 터치하기 편하게 높이 추가 */
-    font-size: 16px; /* iOS 자동 줌 방지를 위한 최소 16px 권장 */
+    padding: 18px;
+    font-size: 16px;
     border-radius: 12px;
   }
 
-  /* 버튼 크기 및 폰트 조절 */
   .submit-btn {
     padding: 20px;
     font-size: 18px;
@@ -232,7 +233,6 @@ input:focus {
     margin-top: 10px;
   }
 
-  /* 하단 카피라이트 위치 조정 */
   .copyright {
     position: relative;
     bottom: auto;
@@ -241,7 +241,6 @@ input:focus {
   }
 }
 
-/* 초소형 기기 (320px 이하) 대응 */
 @media screen and (max-width: 320px) {
   .login-box {
     padding: 20px 10px;
