@@ -547,6 +547,195 @@
       "amount": 200000,
       "transaction_date": "2026-02-18",
       "memo": "작업 정산"
+    },
+    {
+      "id": 58,
+      "user_id": 1,
+      "category_id": 8,
+      "type": "INCOME",
+      "amount": 320000,
+      "transaction_date": "2026-03-01",
+      "memo": "3월 외주 수입"
+    },
+    {
+      "id": 59,
+      "user_id": 1,
+      "category_id": 6,
+      "type": "EXPENSE",
+      "amount": 12500,
+      "transaction_date": "2026-03-01",
+      "memo": "점심 돈까스"
+    },
+    {
+      "id": 60,
+      "user_id": 1,
+      "category_id": 3,
+      "type": "EXPENSE",
+      "amount": 1450,
+      "transaction_date": "2026-03-02",
+      "memo": "버스비"
+    },
+    {
+      "id": 61,
+      "user_id": 1,
+      "category_id": 7,
+      "type": "EXPENSE",
+      "amount": 4800,
+      "transaction_date": "2026-03-03",
+      "memo": "편의점 아침"
+    },
+    {
+      "id": 62,
+      "user_id": 1,
+      "category_id": 2,
+      "type": "EXPENSE",
+      "amount": 55000,
+      "transaction_date": "2026-03-05",
+      "memo": "워크숍 참가비"
+    },
+    {
+      "id": 63,
+      "user_id": 1,
+      "category_id": 4,
+      "type": "EXPENSE",
+      "amount": 42000,
+      "transaction_date": "2026-03-08",
+      "memo": "봄 옷 소량 구매"
+    },
+    {
+      "id": 64,
+      "user_id": 1,
+      "category_id": 8,
+      "type": "INCOME",
+      "amount": 120000,
+      "transaction_date": "2026-03-10",
+      "memo": "디자인 시안 수정 비용"
+    },
+    {
+      "id": 65,
+      "user_id": 1,
+      "category_id": 5,
+      "type": "EXPENSE",
+      "amount": 75000,
+      "transaction_date": "2026-03-12",
+      "memo": "벚꽃 시즌 당일치기"
+    },
+    {
+      "id": 66,
+      "user_id": 1,
+      "category_id": 6,
+      "type": "EXPENSE",
+      "amount": 19500,
+      "transaction_date": "2026-03-12",
+      "memo": "나들이 중 점심"
+    },
+    {
+      "id": 67,
+      "user_id": 1,
+      "category_id": 1,
+      "type": "EXPENSE",
+      "amount": 12000,
+      "transaction_date": "2026-03-15",
+      "memo": "등본·초본 발급"
+    },
+    {
+      "id": 68,
+      "user_id": 1,
+      "category_id": 3,
+      "type": "EXPENSE",
+      "amount": 2900,
+      "transaction_date": "2026-03-15",
+      "memo": "지하철 왕복"
+    },
+    {
+      "id": 69,
+      "user_id": 1,
+      "category_id": 8,
+      "type": "INCOME",
+      "amount": 280000,
+      "transaction_date": "2026-03-18",
+      "memo": "웹 페이지 유지보수 정산"
+    },
+    {
+      "id": 70,
+      "user_id": 1,
+      "category_id": 6,
+      "type": "EXPENSE",
+      "amount": 14000,
+      "transaction_date": "2026-03-20",
+      "memo": "저녁 칼국수"
+    },
+    {
+      "id": 71,
+      "user_id": 1,
+      "category_id": 4,
+      "type": "EXPENSE",
+      "amount": 36000,
+      "transaction_date": "2026-03-22",
+      "memo": "생활잡화 쇼핑"
+    },
+    {
+      "id": 72,
+      "user_id": 1,
+      "category_id": 7,
+      "type": "EXPENSE",
+      "amount": 6200,
+      "transaction_date": "2026-03-24",
+      "memo": "편의점 야식"
+    },
+    {
+      "id": 73,
+      "user_id": 1,
+      "category_id": 8,
+      "type": "INCOME",
+      "amount": 95000,
+      "transaction_date": "2026-03-25",
+      "memo": "번역 단기 작업"
+    },
+    {
+      "id": 74,
+      "user_id": 1,
+      "category_id": 2,
+      "type": "EXPENSE",
+      "amount": 33000,
+      "transaction_date": "2026-03-26",
+      "memo": "온라인 세미나 티켓"
+    },
+    {
+      "id": 75,
+      "user_id": 1,
+      "category_id": 6,
+      "type": "EXPENSE",
+      "amount": 21000,
+      "transaction_date": "2026-03-28",
+      "memo": "주말 브런치"
+    },
+    {
+      "id": 76,
+      "user_id": 1,
+      "category_id": 1,
+      "type": "EXPENSE",
+      "amount": 6000,
+      "transaction_date": "2026-03-29",
+      "memo": "우편 발송비"
+    },
+    {
+      "id": 77,
+      "user_id": 1,
+      "category_id": 8,
+      "type": "INCOME",
+      "amount": 175000,
+      "transaction_date": "2026-03-31",
+      "memo": "3월 마감 프로젝트 잔금"
+    },
+    {
+      "id": 78,
+      "user_id": 1,
+      "category_id": 6,
+      "type": "EXPENSE",
+      "amount": 16000,
+      "transaction_date": "2026-03-31",
+      "memo": "월말 회식"
     }
   ]
 }

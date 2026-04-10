@@ -426,7 +426,7 @@ const totalBalance = computed(() => {
   letter-spacing: -0.02em;
 }
 
-/* 현재 월 ( 달력 ) */
+/* 현재 월 ( 달력 ) 월 넘기는 버튼 */
 .nav-btn {
   background: #2a2a2a;
   color: #e5e2e1;
